@@ -1,0 +1,877 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lecture 6: Beyond VAEs and GANs: Other Deep Generative Models - Part 1 &#8212; Deep Learning For Computer Vision</title>
+    
+  <link href="../../_static/css/theme.css" rel="stylesheet">
+  <link href="../../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.14.0/dist/embed-amd.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Lecture 7 : Beyond VAEs and GANs: Other Deep Generative Models - Part 2" href="Week_10_Lecture_7.html" />
+    <link rel="prev" title="Lecture 5: Combining VAEs and GANs" href="Week_10_Lecture_5.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../../_static/IITH_logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Deep Learning For Computer Vision</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../intro.html">
+   Welcome to the Course
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Prereq.html">
+   Prerequisites
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../Week_1/Week_1.html">
+   Week 1
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_1/Week_1_Lecture_1.html">
+     Lecture 1: Course Introduction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_1/Week_1_Lecture_2.html">
+     Lecture 2: History
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_1/Week_1_Lecture_3.html">
+     Lecture 3: Image Formation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_1/Week_1_Lecture_4.html">
+     Lecture 4: Image Representation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_1/Week_1_Lecture_5.html">
+     Lecture 5: Linear Filtering, Correlation, Convolution
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_1/Week_1_Lecture_6.html">
+     Lecture 6: Image in Frequency Domain
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_1/Week_1_Lecture_7.html">
+     Lecture 7: Image Sampling
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../Week_2/Week_2.html">
+   Week 2
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_2/Week_2_Lecture_1.html">
+     Lecture 1: Edge Detection
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_2/Week_2_Lecture_2.html">
+     Lecture 2: From Edges to Blobs and Corners
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_2/Week_2_Lecture_3.html">
+     Lecture 3: Scale Space, Image Pyramids and Filter Banks
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_2/Week_2_Lecture_4.html">
+     Lecture 4: SIFT and Variants
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_2/Week_2_Lecture_5.html">
+     Lecture 5: Image Segmentation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_2/Week_2_Lecture_6.html">
+     Lecture 6: Other Feature Spaces
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_2/Week_2_Lecture_7.html">
+     Lecture 7: Human Visual System
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../Week_3/Week_3.html">
+   Week 3
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_3/Week_3_Lecture_1.html">
+     Lecture 1: Feature Matching
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_3/Week_3_Lecture_2.html">
+     Lecture 2: Hough Transform
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_3/Week_3_Lecture_3.html">
+     Lecture 3: From Points to Images: Bag-of-Words and VLAD Representations
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_3/Week_3_Lecture_4.html">
+     Lecture 4: Image Descriptor Matching
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_3/Week_3_Lecture_5.html">
+     Lecture 5: Pyramid Matching
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_3/Week_3_Lecture_6.html">
+     Lecture 6: From Traditional Vision to Deep Learning
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../Week_4/Week_4.html">
+   Week 4
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_4/Week_4_Lecture_1.html">
+     Lecture 1 : Neural Networks: A Review Part 1
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_4/Week_4_Lecture_2.html">
+     Lecture 2: Neural Networks: A Review Part 2
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_4/Week_4_Lecture_3.html">
+     Lecture 3: Feedforward Neural Networks and Backpropagation Part 1
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_4/Week_4_Lecture_4.html">
+     Lecture 4: Feedforward Neural Networks and Backpropagation Part 2
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_4/Week_4_Lecture_5.html">
+     Lecture 5: Gradient Descent and Variants Part 1
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_4/Week_4_Lecture_6.html">
+     Lecture 6: Gradient Descent and Variants Part 2
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_4/Week_4_Lecture_7.html">
+     Lecture 7: Regularization in Neural Networks Part 1
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_4/Week_4_Lecture_8.html">
+     Lecture 8: Regularization in Neural Networks Part 2
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_4/Week_4_Lecture_9.html">
+     Lecture 9: Improving Training of Neural Networks Part 1
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_4/Week_4_Lecture_10.html">
+     Lecture 10: Improving Training of Neural Networks Part 2
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../Week_5/Week_5.html">
+   Week 5
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_5/Week_5_Lecture_1.html">
+     Lecture 1: Convolutional Neural Networks: An Introduction - Part 01
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_5/Week_5_Lecture_2.html">
+     Lecture 2: Convolutional Neural Networks: An Introduction - Part 02
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_5/Week_5_Lecture_3.html">
+     Lecture 3: Backpropagation in CNNs
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_5/Week_5_Lecture_4.html">
+     Lecture 4: Evolution of CNN Architectures for Image Classification - Part01
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_5/Week_5_Lecture_5.html">
+     Lecture 5: Evolution of CNN Architectures for Image Classification - Part02
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_5/Week_5_Lecture_6.html">
+     Lecture 6: Recent CNN Architectures
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_5/Week_5_Lecture_7.html">
+     Lecture 7: Finetuning in CNNs
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../Week_6/Week_6.html">
+   Week 6
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_6/Week_6_Lecture_1.html">
+     Lecture 1: Explaining CNNs: Visualization Methods
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_6/Week_6_Lecture_2.html">
+     Lecture 2: Explaining CNNs: Early Methods
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_6/Week_6_Lecture_3.html">
+     Lecture 3: Explaining CNNs: Class Attribution Map Methods
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_6/Week_6_Lecture_4.html">
+     Lecture 4: Explaining CNNs: Recent Methods - Part 01
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_6/Week_6_Lecture_5.html">
+     Lecture 5: Explaining CNNs: Recent Methods - Part 02
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_6/Week_6_Lecture_6.html">
+     Lecture 6: Going Beyond Explaining CNNs
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../Week_7/Week_7.html">
+   Week 7
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_7/Week_7_Lecture_1.html">
+     Lecture 1: CNNs for Object Detection-I - Part 01
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_7/Week_7_Lecture_2.html">
+     Lecture 2: CNNs for Object Detection-I - Part 02
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_7/Week_7_Lecture_3.html">
+     Lecture 3: CNNs for Object Detection-II
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_7/Week_7_Lecture_4.html">
+     Lecture 4: CNNs for Segmentation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_7/Week_7_Lecture_5.html">
+     Lecture 5: CNNs for Human Understanding: Faces -Part 01
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_7/Week_7_Lecture_6.html">
+     Lecture 6: CNNs for Human Understanding: Faces -Part 02
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_7/Week_7_Lecture_7.html">
+     Lecture 7: CNNs for Human Understanding: Human Pose and Crowd
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_7/Week_7_Lecture_8.html">
+     Lecture 8: CNNs for Other Image Tasks
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../Week_8/Week_8.html">
+   Week 8
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_8/Week_8_Lecture_1.html">
+     Lecture 1: Recurrent Neural Networks: Introduction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_8/Week_8_Lecture_2.html">
+     Lecture 2: Backpropagation in RNNs
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_8/Week_8_Lecture_3.html">
+     Lecture 3: LSTMs and GRUs
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_8/Week_8_Lecture_4.html">
+     Lecture 4: Video Understanding using CNNs and RNNs
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../Week_9/Week_9.html">
+   Week 9
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+  <label for="toctree-checkbox-9">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_9/Week_9_Lecture_1.html">
+     Lecture 1: Attention in Vision Models: An Introduction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_9/Week_9_Lecture_2.html">
+     Lecture 2: Vision and Language: Image Captioning
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_9/Week_9_Lecture_3.html">
+     Lecture 3: Beyond Captioning: Visual QA, Visual Dialog
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_9/Week_9_Lecture_4.html">
+     Lecture 4: Other Attention Models
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_9/Week_9_Lecture_5.html">
+     Lecture 5: Self-Attention and Transformers
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="Week_10.html">
+   Week 10
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
+  <label for="toctree-checkbox-10">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="Week_10_Lecture_1.html">
+     Lecture 10: Deep Generative Models: An Introduction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Week_10_Lecture_2.html">
+     Lecture 2: Generative Adversarial Networks - Part 1
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Week_10_Lecture_3.html">
+     Lecture 3: Generative Adversarial Networks - Part 2
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Week_10_Lecture_4.html">
+     Lecture 4: Variational Autoencoders
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Week_10_Lecture_5.html">
+     Lecture 5: Combining VAEs and GANs
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Lecture 6: Beyond VAEs and GANs: Other Deep Generative Models - Part 1
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Week_10_Lecture_7.html">
+     Lecture 7 : Beyond VAEs and GANs: Other Deep Generative Models - Part 2
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../Week_11/Week_11.html">
+   Week 11
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
+  <label for="toctree-checkbox-11">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_11/Week_11_Lecture_1.html">
+     Lecture 1 : GAN Improvements
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_11/Week_11_Lecture_2.html">
+     Lecture 2: Deep Generative Models across Multiple Domains
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_11/Week_11_Lecture_3.html">
+     Lecture 3: VAEs and Disentanglement
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_11/Week_11_Lecture_4.html">
+     Lecture 4: Deep Generative Models: Image Applications
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_11/Week_11_Lecture_5.html">
+     Lecture 5: Deep Generative Models: Video Applications
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../Week_12/Week_12.html">
+   Week 12
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/>
+  <label for="toctree-checkbox-12">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_12/Week_12_Lecture_1.html">
+     Lecture 1: Few-shot and Zero-shot Learning - Part 1
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_12/Week_12_Lecture_2.html">
+     Lecture 2: Few-shot and Zero-shot Learning - Part 2
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_12/Week_12_Lecture_3.html">
+     Lecture 3: Self-Supervised Learning
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_12/Week_12_Lecture_4.html">
+     Lecture 4: Adversarial Robustness
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_12/Week_12_Lecture_5.html">
+     Lecture 5: Pruning and Model Compression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_12/Week_12_Lecture_6.html">
+     Lecture 6: Neural Architecture Search
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Week_12/Week_12_Lecture_7.html">
+     Lecture 7 : Course Conclusion
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../../_sources/notebooks/Week_10/Week_10_Lecture_6.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/executablebooks/jupyter-book"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fnotebooks/Week_10/Week_10_Lecture_6.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/docs/notebooks/Week_10/Week_10_Lecture_6.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Lecture 6: Beyond VAEs and GANs: Other Deep Generative Models - Part 1</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <p><a href="https://colab.research.google.com/github/DL4CV-NPTEL/Deep-Learning-For-Computer-Vision/blob/main/notebooks/Week_10/Week_10_Lecture_6.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a></p>
+<div class="tex2jax_ignore mathjax_ignore section" id="lecture-6-beyond-vaes-and-gans-other-deep-generative-models-part-1">
+<h1>Lecture 6: Beyond VAEs and GANs: Other Deep Generative Models - Part 1<a class="headerlink" href="#lecture-6-beyond-vaes-and-gans-other-deep-generative-models-part-1" title="Permalink to this headline">¶</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#@title </span>
+<span class="kn">from</span> <span class="nn">ipywidgets</span> <span class="k">import</span> <span class="n">widgets</span>
+<span class="n">out1</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Output</span><span class="p">()</span>
+<span class="k">with</span> <span class="n">out1</span><span class="p">:</span>
+  <span class="kn">from</span> <span class="nn">IPython.display</span> <span class="k">import</span> <span class="n">YouTubeVideo</span>
+  <span class="n">video</span> <span class="o">=</span> <span class="n">YouTubeVideo</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">f</span><span class="s2">&quot;RPkf516rXgw&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">854</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">480</span><span class="p">,</span> <span class="n">fs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">rel</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Video available at https://youtube.com/watch?v=&quot;</span> <span class="o">+</span> <span class="n">video</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+  <span class="n">display</span><span class="p">(</span><span class="n">video</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">out1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">
+{"version_major": 2, "version_minor": 0, "model_id": "86bcad0a2b32498eaacb5d59c5649578"}
+</script></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#@title </span>
+<span class="kn">from</span> <span class="nn">IPython</span> <span class="k">import</span> <span class="n">display</span> <span class="k">as</span> <span class="n">IPyDisplay</span>
+<span class="n">IPyDisplay</span><span class="o">.</span><span class="n">HTML</span><span class="p">(</span>
+    <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">  &lt;div&gt;</span>
+<span class="s2">    &lt;a href= &quot;https://github.com/DL4CV-NPTEL/Deep-Learning-For-Computer-Vision/blob/main/Slides/Week_10/DL4CV_Week10_Part05.pdf&quot; target=&quot;_blank&quot;&gt;</span>
+<span class="s2">    &lt;img src=&quot;https://github.com/DL4CV-NPTEL/Deep-Learning-For-Computer-Vision/blob/main/Data/Slides_Logo.png?raw=1&quot;</span>
+<span class="s2">  alt=&quot;button link to Airtable&quot; style=&quot;width:200px&quot;&gt;&lt;/a&gt;</span>
+<span class="s2">    &lt;/div&gt;&quot;&quot;&quot;</span> <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+<div>
+  <a href= "https://github.com/DL4CV-NPTEL/Deep-Learning-For-Computer-Vision/blob/main/Slides/Week_10/DL4CV_Week10_Part05.pdf" target="_blank">
+  <img src="https://github.com/DL4CV-NPTEL/Deep-Learning-For-Computer-Vision/blob/main/Data/Slides_Logo.png?raw=1"
+alt="button link to Airtable" style="width:200px"></a>
+  </div></div></div>
+</div>
+</div>
+
+
+<script type="application/vnd.jupyter.widget-state+json">
+{"state": {"89480971df184de483f1487f81fa5eb3": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.1.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.1.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.1.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "86bcad0a2b32498eaacb5d59c5649578": {"model_name": "OutputModel", "model_module": "@jupyter-widgets/output", "model_module_version": "1.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/output", "_model_module_version": "1.0.0", "_model_name": "OutputModel", "_view_count": null, "_view_module": "@jupyter-widgets/output", "_view_module_version": "1.0.0", "_view_name": "OutputView", "layout": "IPY_MODEL_89480971df184de483f1487f81fa5eb3", "msg_id": "", "outputs": [{"output_type": "stream", "name": "stdout", "text": "Video available at https://youtube.com/watch?v=RPkf516rXgw\n"}, {"output_type": "display_data", "metadata": {}, "data": {"text/plain": "<IPython.lib.display.YouTubeVideo at 0x16addc0c2c8>", "text/html": "\n        <iframe\n            width=\"854\"\n            height=\"480\"\n            src=\"https://www.youtube.com/embed/RPkf516rXgw?fs=1&rel=0\"\n            frameborder=\"0\"\n            allowfullscreen\n        ></iframe>\n        ", "image/jpeg": "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DemfvHOPje6w3pn7wPUAeX84+N7rDemfvHOPje6w3pn7wPUAeX84+N7rDemfvHOPje6w3pn7wPUAeX84+N7rDemfvHOPje6w3pn7wPUAeX84+N7rDemfvHOPje6w3pn7wPUAeX84+N7rDemfvHOPje6w3pn7wPUAeX84+N7rDemfvHOPje6w3pn7wPUAeX84+N7rDemfvHOPje6w3pn7wPUAeX84+N7rDemfvHOPje6w3pn7wPUAeX84+N7rDemfvHOPje6w3pn7wPUAeX84+N7rDemfvHOPje6w3pn7wPUAeX84+N7rDemfvHOPje6w3pn7wPUAeX84+N7rDemfvHOPje6w3pn7wPUAeX84+N7rDemfvHOPje6w3pn7wPUAeX84+N7rDemfvHOPje6w3pn7wPUAeX84+N7rDemfvHOPje6w3pn7wPUAeX84+N7rDemfvHOPje6w3pn7wPUAeX84+N7rDemfvHOPje6w3pn7wPUAeX84+N7rDemfvHOPje6w3pn7wPUAeX84+N7rDemfvHOPje6w3pn7wPUAeX84+N7rDemfvHOPje6w3pn7wPUAeX84+N7rDemfvHOPje6w3pn7wPUAeX84+N7rDemfvHOPje6w3pn7wPUAeX84+N7rDemfvHOPje6w3pn7wOPAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB//9k=\n"}}]}}}, "version_major": 2, "version_minor": 0}
+</script>
+
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./notebooks\Week_10"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="Week_10_Lecture_5.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Lecture 5: Combining VAEs and GANs</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="Week_10_Lecture_7.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Lecture 7 : Beyond VAEs and GANs: Other Deep Generative Models - Part 2</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Dr Vineeth N Balasubramanian<br/>
+    
+        &copy; Copyright 2021.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>
