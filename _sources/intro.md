@@ -6,7 +6,7 @@
 <br>
 <p align="justify">The automatic analysis and understanding of images and videos, a field called Computer Vision, occupies significant importance in applications including security, healthcare, entertainment, mobility, etc. The recent success of deep learning methods has revolutionized the field of computer vision, making new developments increasingly closer to deployment that benefits end users. This course will introduce the students to traditional computer vision topics, before presenting deep learning methods for computer vision. The course will cover basics as well as recent advancements in these areas, which will help the student learn the basics as well as become proficient in applying these methods to real-world applications. The course assumes that the student has already completed a full course in machine learning, and some introduction to deep learning preferably, and will build on these topics focusing on computer vision.</p>
 
-## Fall 2022 Link : Coming Soon
+ <font size="5"> Fall 2022 Link : https://onlinecourses.nptel.ac.in/noc22_cs76/preview </font>
 ## Course Cirriculum
 ### Week 1:Introduction and Overview: 
 Course Overview and Motivation; Introduction to Image Formation, Capture and Representation; Linear Filtering, Correlation,          Convolution
