@@ -4,11 +4,13 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Lecture 3: Feedforward Neural Networks and Backpropagation Part 1 &#8212; Deep Learning For Computer Vision</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Lecture 3: Feedforward Neural Networks and Backpropagation Part 1 Code &#8212; Deep Learning For Computer Vision</title>
     
-  <link href="../../_static/css/theme.css" rel="stylesheet">
-  <link href="../../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 
     
   <link rel="stylesheet"
@@ -18,20 +20,16 @@
   <link rel="preload" as="font" type="font/woff2" crossorigin
     href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
-    
-      
-
-    
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
     
-  <link rel="preload" as="script" href="../../_static/js/index.be7d3bbb2ef33a8344ce.js">
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
 
     <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
@@ -39,12 +37,13 @@
     <script src="../../_static/doctools.js"></script>
     <script src="../../_static/clipboard.min.js"></script>
     <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="../../_static/togglebutton.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script src="../../_static/design-tabs.js"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
@@ -52,11 +51,13 @@ const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../../_static/sphinx-thebe.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.14.0/dist/embed-amd.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Lecture 4: Feedforward Neural Networks and Backpropagation Part 2" href="Week_4_Lecture_4.html" />
-    <link rel="prev" title="Lecture 2: Neural Networks: A Review Part 2" href="Week_4_Lecture_2.html" />
+    <link rel="next" title="Lecture 4: Feedforward Neural Networks and Backpropagation Part 2 Code" href="Week_4_Lecture_4.html" />
+    <link rel="prev" title="Lecture 2: Neural Networks: A Review Part 2 Code" href="Week_4_Lecture_2.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -64,7 +65,21 @@ const thebe_selector_output = ".output, .cell_output"
     <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
     
     <div class="container-fluid" id="banner"></div>
 
@@ -73,9 +88,10 @@ const thebe_selector_output = ".output, .cell_output"
     <div class="container-xl">
       <div class="row">
           
-<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
-    
-        <div class="navbar-brand-box">
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
     <a class="navbar-brand text-wrap" href="../../index.html">
       
         <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
@@ -93,14 +109,15 @@ const thebe_selector_output = ".output, .cell_output"
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
-        <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../../intro.html">
-   Welcome to the Course
-  </a>
- </li>
-</ul>
-<ul class="current nav bd-sidenav">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Welcome to the Course
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../../Prereq.html">
    Prerequisites
@@ -280,51 +297,101 @@ const thebe_selector_output = ".output, .cell_output"
    <li class="toctree-l2">
     <a class="reference internal" href="Week_4_Lecture_1.html">
      Lecture 1 : Neural Networks: A Review Part 1
+     <sup>
+      <mark style="background-color:gold">
+       Code
+      </mark>
+     </sup>
     </a>
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="Week_4_Lecture_2.html">
      Lecture 2: Neural Networks: A Review Part 2
+     <sup>
+      <mark style="background-color:gold">
+       Code
+      </mark>
+     </sup>
     </a>
    </li>
    <li class="toctree-l2 current active">
     <a class="current reference internal" href="#">
      Lecture 3: Feedforward Neural Networks and Backpropagation Part 1
+     <sup>
+      <mark style="background-color:gold">
+       Code
+      </mark>
+     </sup>
     </a>
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="Week_4_Lecture_4.html">
      Lecture 4: Feedforward Neural Networks and Backpropagation Part 2
+     <sup>
+      <mark style="background-color:gold">
+       Code
+      </mark>
+     </sup>
     </a>
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="Week_4_Lecture_5.html">
      Lecture 5: Gradient Descent and Variants Part 1
+     <sup>
+      <mark style="background-color:gold">
+       Code
+      </mark>
+     </sup>
     </a>
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="Week_4_Lecture_6.html">
      Lecture 6: Gradient Descent and Variants Part 2
+     <sup>
+      <mark style="background-color:gold">
+       Code
+      </mark>
+     </sup>
     </a>
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="Week_4_Lecture_7.html">
      Lecture 7: Regularization in Neural Networks Part 1
+     <sup>
+      <mark style="background-color:gold">
+       Code
+      </mark>
+     </sup>
     </a>
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="Week_4_Lecture_8.html">
      Lecture 8: Regularization in Neural Networks Part 2
+     <sup>
+      <mark style="background-color:gold">
+       Code
+      </mark>
+     </sup>
     </a>
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="Week_4_Lecture_9.html">
      Lecture 9: Improving Training of Neural Networks Part 1
+     <sup>
+      <mark style="background-color:gold">
+       Code
+      </mark>
+     </sup>
     </a>
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="Week_4_Lecture_10.html">
      Lecture 10: Improving Training of Neural Networks Part 2
+     <sup>
+      <mark style="background-color:gold">
+       Code
+      </mark>
+     </sup>
     </a>
    </li>
   </ul>
@@ -673,12 +740,17 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 
     </div>
-</nav> <!-- To handle the deprecated key -->
-
-<div class="navbar_extra_footer">
-  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-</div>
-
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
 </div>
 
 
@@ -686,118 +758,337 @@ const thebe_selector_output = ".output, .cell_output"
 
 
           
-<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
     
-    <div class="topbar container-xl fixed-top">
-    <div class="topbar-contents row">
-        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
-        <div class="col pl-md-4 topbar-main">
-            
-            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
-                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
-                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
-                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
-                <i class="fas fa-bars"></i>
-                <i class="fas fa-arrow-left"></i>
-                <i class="fas fa-arrow-up"></i>
-            </button>
-            
-            
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
-            class="fas fa-download"></i></button>
-
-    <div class="dropdown-buttons">
-        <!-- ipynb file if we had a myst markdown file -->
+    <div class="header-article row sticky-top noprint">
         
-        <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../../_sources/notebooks/Week_4/Week_4_Lecture_3.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
-                data-placement="left">.ipynb</button></a>
-        <!-- Download PDF via print -->
-        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/docs/notebooks/Week_4/Week_4_Lecture_3.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/executablebooks/jupyter-book"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fnotebooks/Week_4/Week_4_Lecture_3.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../../_sources/notebooks/Week_4/Week_4_Lecture_3.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
     </div>
 </div>
 
-            <!-- Source interaction buttons -->
-
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
-    <div class="dropdown-buttons sourcebuttons">
-        <a class="repository-button"
-            href="https://github.com/executablebooks/jupyter-book"><button type="button" class="btn btn-secondary topbarbtn"
-                data-toggle="tooltip" data-placement="left" title="Source repository"><i
-                    class="fab fa-github"></i>repository</button></a>
-        <a class="issues-button"
-            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fnotebooks/Week_4/Week_4_Lecture_3.html&body=Your%20issue%20content%20here."><button
-                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
-                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
-        
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
     </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#gradient-descent-algorithm">
+   Gradient Descent Algorithm
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#gradient-vector">
+     Gradient vector
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#solution">
+       Solution:
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id1">
+     Gradient Descent Algorithm
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#pytorch-autograd">
+   PyTorch AutoGrad
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#forward-propagation">
+     Forward Propagation
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#buiding-a-computational-graph">
+       Buiding a Computational Graph
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#backward-propagation">
+     Backward Propagation
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#references-and-more">
+   References and more:
+  </a>
+ </li>
+</ul>
+
+    </nav>
 </div>
-
-            <!-- Full screen (wrap in <a> to have style consistency -->
-
-<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-        title="Fullscreen mode"><i
-            class="fas fa-expand"></i></button></a>
-
-            <!-- Launch buttons -->
-
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
-    <div class="dropdown-buttons">
-        
-        <a class="binder-button" href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/docs/notebooks/Week_4/Week_4_Lecture_3.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
-                data-placement="left"><img class="binder-button-logo"
-                    src="../../_static/images/logo_binder.svg"
-                    alt="Interact on binder">Binder</button></a>
-        
-        
-        
-        
     </div>
-</div>
-
-        </div>
-
-        <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
-            
-        </div>
-    </div>
-</div>
-    <div id="main-content" class="row">
-        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Lecture 3: Feedforward Neural Networks and Backpropagation Part 1</h1>
+                <h1>Lecture 3: Feedforward Neural Networks and Backpropagation Part 1  <sup><mark style="background-color:gold">Code</mark> </sup></h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#gradient-descent-algorithm">
+   Gradient Descent Algorithm
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#gradient-vector">
+     Gradient vector
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#solution">
+       Solution:
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id1">
+     Gradient Descent Algorithm
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#pytorch-autograd">
+   PyTorch AutoGrad
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#forward-propagation">
+     Forward Propagation
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#buiding-a-computational-graph">
+       Buiding a Computational Graph
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#backward-propagation">
+     Backward Propagation
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#references-and-more">
+   References and more:
+  </a>
+ </li>
+</ul>
+
+                        </nav>
                     </div>
                 </div>
             </div>
-            
+            <main id="main-content" role="main">
+                
               <div>
                 
   <p><a href="https://colab.research.google.com/github/DL4CV-NPTEL/Deep-Learning-For-Computer-Vision/blob/main/notebooks/Week_4/Week_4_Lecture_3.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a></p>
-<div class="tex2jax_ignore mathjax_ignore section" id="lecture-3-feedforward-neural-networks-and-backpropagation-part-1">
-<h1>Lecture 3: Feedforward Neural Networks and Backpropagation Part 1<a class="headerlink" href="#lecture-3-feedforward-neural-networks-and-backpropagation-part-1" title="Permalink to this headline">¶</a></h1>
+<section class="tex2jax_ignore mathjax_ignore" id="lecture-3-feedforward-neural-networks-and-backpropagation-part-1-sup-mark-style-background-color-gold-code-mark-sup">
+<h1>Lecture 3: Feedforward Neural Networks and Backpropagation Part 1  <sup><mark style="background-color:gold">Code</mark> </sup><a class="headerlink" href="#lecture-3-feedforward-neural-networks-and-backpropagation-part-1-sup-mark-style-background-color-gold-code-mark-sup" title="Permalink to this headline">#</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#@title </span>
-<span class="kn">from</span> <span class="nn">ipywidgets</span> <span class="k">import</span> <span class="n">widgets</span>
+<span class="kn">from</span> <span class="nn">ipywidgets</span> <span class="kn">import</span> <span class="n">widgets</span>
 <span class="n">out1</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Output</span><span class="p">()</span>
 <span class="k">with</span> <span class="n">out1</span><span class="p">:</span>
-  <span class="kn">from</span> <span class="nn">IPython.display</span> <span class="k">import</span> <span class="n">YouTubeVideo</span>
-  <span class="n">video</span> <span class="o">=</span> <span class="n">YouTubeVideo</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">f</span><span class="s2">&quot;8sjbwfHdqW8&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">854</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">480</span><span class="p">,</span> <span class="n">fs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">rel</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+  <span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">YouTubeVideo</span>
+  <span class="n">video</span> <span class="o">=</span> <span class="n">YouTubeVideo</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;8sjbwfHdqW8&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">854</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">480</span><span class="p">,</span> <span class="n">fs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">rel</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
   <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Video available at https://youtube.com/watch?v=&quot;</span> <span class="o">+</span> <span class="n">video</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
   <span class="n">display</span><span class="p">(</span><span class="n">video</span><span class="p">)</span>
 <span class="n">display</span><span class="p">(</span><span class="n">out1</span><span class="p">)</span>
@@ -806,15 +1097,15 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 <div class="cell_output docutils container">
 <script type="application/vnd.jupyter.widget-view+json">
-{"version_major": 2, "version_minor": 0, "model_id": "0ad1d4637fa34516abeb9a4f91fed3e7"}
+{"version_major": 2, "version_minor": 0, "model_id": "0f8497bd2d0d4f8b8af41ee77dd9498d"}
 </script></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#@title </span>
-<span class="kn">from</span> <span class="nn">IPython</span> <span class="k">import</span> <span class="n">display</span> <span class="k">as</span> <span class="n">IPyDisplay</span>
+<span class="kn">from</span> <span class="nn">IPython</span> <span class="kn">import</span> <span class="n">display</span> <span class="k">as</span> <span class="n">IPyDisplay</span>
 <span class="n">IPyDisplay</span><span class="o">.</span><span class="n">HTML</span><span class="p">(</span>
-    <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
+    <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">  &lt;div&gt;</span>
 <span class="s2">    &lt;a href= &quot;https://github.com/DL4CV-NPTEL/Deep-Learning-For-Computer-Vision/blob/main/Slides/Week_4/DL4CV_Week04_Part02.pdf&quot; target=&quot;_blank&quot;&gt;</span>
 <span class="s2">    &lt;img src=&quot;https://github.com/DL4CV-NPTEL/Deep-Learning-For-Computer-Vision/blob/main/Data/Slides_Logo.png?raw=1&quot;</span>
@@ -831,11 +1122,360 @@ const thebe_selector_output = ".output, .cell_output"
 alt="button link to Airtable" style="width:200px"></a>
   </div></div></div>
 </div>
+<p><strong>Imports</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">pi</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">mpl_toolkits.axes_grid1</span> <span class="kn">import</span> <span class="n">make_axes_locatable</span>
+</pre></div>
 </div>
+</div>
+</div>
+<p><strong>Helper Functions for Plotting</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">ex1_plot</span><span class="p">(</span><span class="n">fun_z</span><span class="p">,</span> <span class="n">fun_dz</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Plots the function and gradient vectors</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    fun_z: f.__name__</span>
+<span class="sd">      Function implementing sine function</span>
+<span class="sd">    fun_dz: f.__name__</span>
+<span class="sd">      Function implementing sine function as gradient vector</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    Nothing</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mf">3.01</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mf">3.01</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">)</span>
+  <span class="n">xx</span><span class="p">,</span> <span class="n">yy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">sparse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+  <span class="n">zz</span> <span class="o">=</span> <span class="n">fun_z</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">)</span>
+  <span class="n">xg</span><span class="p">,</span> <span class="n">yg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mf">2.5</span><span class="p">,</span> <span class="mf">2.6</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mf">2.5</span><span class="p">,</span> <span class="mf">2.6</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+  <span class="n">xxg</span><span class="p">,</span> <span class="n">yyg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">xg</span><span class="p">,</span> <span class="n">yg</span><span class="p">,</span> <span class="n">sparse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+  <span class="n">zxg</span><span class="p">,</span> <span class="n">zyg</span> <span class="o">=</span> <span class="n">fun_dz</span><span class="p">(</span><span class="n">xxg</span><span class="p">,</span> <span class="n">yyg</span><span class="p">)</span>
+
+  <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Gradient vectors point towards steepest ascent&quot;</span><span class="p">)</span>
+  <span class="n">contplt</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">zz</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">quiver</span><span class="p">(</span><span class="n">xxg</span><span class="p">,</span> <span class="n">yyg</span><span class="p">,</span> <span class="n">zxg</span><span class="p">,</span> <span class="n">zyg</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="p">)</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;$x$&#39;</span><span class="p">)</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;$y$&#39;</span><span class="p">)</span>
+  <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+  <span class="n">divider</span> <span class="o">=</span> <span class="n">make_axes_locatable</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+  <span class="n">cax</span> <span class="o">=</span> <span class="n">divider</span><span class="o">.</span><span class="n">append_axes</span><span class="p">(</span><span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="s2">&quot;5%&quot;</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
+  <span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">contplt</span><span class="p">,</span> <span class="n">cax</span><span class="o">=</span><span class="n">cax</span><span class="p">)</span>
+  <span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="s1">&#39;$z = h(x, y)$&#39;</span><span class="p">)</span>
+
+  <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="gradient-descent-algorithm">
+<h2>Gradient Descent Algorithm<a class="headerlink" href="#gradient-descent-algorithm" title="Permalink to this headline">#</a></h2>
+<p>Since the goal of most learning algorithms is <strong>minimizing the risk (also known as the cost or loss) function</strong>, optimization is often the core of most machine learning techniques! The gradient descent algorithm, along with its variations such as stochastic gradient descent, is one of the most powerful and popular optimization methods used for deep learning.</p>
+<section id="gradient-vector">
+<h3>Gradient vector<a class="headerlink" href="#gradient-vector" title="Permalink to this headline">#</a></h3>
+<p>Given the following function:</p>
+<p>\begin{equation}
+z = h(x, y) = \sin(x^2 + y^2)
+\end{equation}</p>
+<p>find the gradient vector:</p>
+<p>\begin{equation}
+\begin{bmatrix}
+\dfrac{\partial z}{\partial x} \ \ \dfrac{\partial z}{\partial y}
+\end{bmatrix}
+\end{equation}</p>
+<p><em>Hint: Use the chain rule!</em></p>
+<p><strong>Chain rule</strong>: For a composite function <span class="math notranslate nohighlight">\(F(x) = g(h(x)) \equiv (g \circ h)(x)\)</span>:</p>
+<p>\begin{equation}
+F’(x) = g’(h(x)) \cdot h’(x)
+\end{equation}</p>
+<p>or differently denoted:</p>
+<p>\begin{equation}
+\frac{dF}{dx} = \frac{dg}{dh} ~ \frac{dh}{dx}
+\end{equation}</p>
+<hr class="docutils" />
+<section id="solution">
+<h4>Solution:<a class="headerlink" href="#solution" title="Permalink to this headline">#</a></h4>
+<p>We can rewrite the function as a composite function:</p>
+<p>\begin{equation}
+z = f\left( g(x,y) \right), ~~ f(u) = \sin(u), ~~ g(x, y) = x^2 + y^2
+\end{equation}</p>
+<p>Using the <a class="reference external" href="https://en.wikipedia.org/wiki/Chain_rule">chain rule</a>:</p>
+<p>\begin{align}
+\dfrac{\partial z}{\partial x} &amp;= \dfrac{\partial f}{\partial g} \dfrac{\partial g}{\partial x} = \cos(g(x,y)) ~ (2x) = \cos(x^2 + y^2) \cdot 2x \ \
+\dfrac{\partial z}{\partial y} &amp;= \dfrac{\partial f}{\partial g} \dfrac{\partial g}{\partial y} = \cos(g(x,y)) ~ (2y) = \cos(x^2 + y^2) \cdot 2y
+\end{align}</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">fun_z</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Implements function sin(x^2 + y^2)</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    x: (float, np.ndarray)</span>
+<span class="sd">      Variable x</span>
+<span class="sd">    y: (float, np.ndarray)</span>
+<span class="sd">      Variable y</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    z: (float, np.ndarray)</span>
+<span class="sd">      sin(x^2 + y^2)</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">y</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">z</span>
+
+
+<span class="k">def</span> <span class="nf">fun_dz</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Implements function sin(x^2 + y^2)</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    x: (float, np.ndarray)</span>
+<span class="sd">      Variable x</span>
+<span class="sd">    y: (float, np.ndarray)</span>
+<span class="sd">      Variable y</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    Tuple of gradient vector for sin(x^2 + y^2)</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="n">dz_dx</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">x</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">y</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+  <span class="n">dz_dy</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">y</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">y</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+  <span class="k">return</span> <span class="p">(</span><span class="n">dz_dx</span><span class="p">,</span> <span class="n">dz_dy</span><span class="p">)</span>
+
+<span class="n">ex1_plot</span><span class="p">(</span><span class="n">fun_z</span><span class="p">,</span> <span class="n">fun_dz</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/Week_4_Lecture_3_11_0.png" src="../../_images/Week_4_Lecture_3_11_0.png" />
+</div>
+</div>
+<p>We can see from the plot that for any given <span class="math notranslate nohighlight">\(x_0\)</span> and <span class="math notranslate nohighlight">\(y_0\)</span>, the gradient vector <span class="math notranslate nohighlight">\(\left[ \dfrac{\partial z}{\partial x}, \dfrac{\partial z}{\partial y}\right]^{\top}_{(x_0, y_0)}\)</span> points in the direction of <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> for which <span class="math notranslate nohighlight">\(z\)</span> increases the most. It is important to note that gradient vectors only see their local values, not the whole landscape! Also, length (size) of each vector, which indicates the steepness of the function, can be very small near local plateaus (i.e. minima or maxima).</p>
+<p>Thus, we can simply use the aforementioned formula to find the local minima.</p>
+<p>In 1847, Augustin-Louis Cauchy used <strong>negative of gradients</strong>  to develop the Gradient Descent algorithm as an <strong>iterative</strong> method to <strong>minimize</strong> a <strong>continuous</strong> and (ideally) <strong>differentiable function</strong> of <strong>many variables</strong>.</p>
+</section>
+</section>
+<section id="id1">
+<h3>Gradient Descent Algorithm<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h3>
+<p>Let <span class="math notranslate nohighlight">\(f(\mathbf{w}): \mathbb{R}^d \rightarrow \mathbb{R}\)</span> be a differentiable function. Gradient Descent is an iterative algorithm for minimizing the function <span class="math notranslate nohighlight">\(f\)</span>, starting with an initial value for variables <span class="math notranslate nohighlight">\(\mathbf{w}\)</span>, taking steps of size <span class="math notranslate nohighlight">\(\eta\)</span> (learning rate) in the direction of the negative gradient at the current point to update the variables <span class="math notranslate nohighlight">\(\mathbf{w}\)</span>.</p>
+<p>\begin{equation}
+\mathbf{w}^{(t+1)} = \mathbf{w}^{(t)} - \eta \nabla f \left( \mathbf{w}^{(t)} \right)
+\end{equation}</p>
+<p>where <span class="math notranslate nohighlight">\(\eta &gt; 0\)</span> and <span class="math notranslate nohighlight">\(\nabla f (\mathbf{w})= \left( \frac{\partial f(\mathbf{w})}{\partial w_1}, ..., \frac{\partial f(\mathbf{w})}{\partial w_d} \right)\)</span>. Since negative gradients always point locally in the direction of steepest descent, the algorithm makes small steps at each point <strong>towards</strong> the minimum.</p>
+<br/>
+<p><strong>Vanilla Algorithm</strong></p>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>Inputs:</strong> initial guess <span class="math notranslate nohighlight">\(\mathbf{w}^{(0)}\)</span>, step size <span class="math notranslate nohighlight">\(\eta &gt; 0\)</span>, number of steps <span class="math notranslate nohighlight">\(T\)</span>.</p>
+</div></blockquote>
+<blockquote>
+<div><p><strong>For</strong> <span class="math notranslate nohighlight">\(t = 0, 1, 2, \dots , T-1\)</span> <strong>do</strong> <br />
+<span class="math notranslate nohighlight">\(\qquad\)</span> <span class="math notranslate nohighlight">\(\mathbf{w}^{(t+1)} = \mathbf{w}^{(t)} - \eta \nabla f \left( \mathbf{w}^{(t)} \right)\)</span><br />
+<strong>end</strong></p>
+</div></blockquote>
+<blockquote>
+<div><p><strong>Return:</strong> <span class="math notranslate nohighlight">\(\mathbf{w}^{(t+1)}\)</span></p>
+</div></blockquote>
+<hr class="docutils" />
+<br/>
+<p>Hence, all we need is to calculate the gradient of the loss function with respect to the learnable parameters (i.e., weights):</p>
+<p>\begin{equation}
+\dfrac{\partial Loss}{\partial \mathbf{w}} = \left[ \dfrac{\partial Loss}{\partial w_1}, \dfrac{\partial Loss}{\partial w_2} , \dots, \dfrac{\partial Loss}{\partial w_d} \right]^{\top}
+\end{equation}</p>
+</section>
+</section>
+<section id="pytorch-autograd">
+<h2>PyTorch AutoGrad<a class="headerlink" href="#pytorch-autograd" title="Permalink to this headline">#</a></h2>
+<p>Deep learning frameworks such as PyTorch, JAX, and TensorFlow come with a very efficient and sophisticated set of algorithms, commonly known as Automatic Differentiation. AutoGrad is PyTorch’s automatic differentiation engine.</p>
+<section id="forward-propagation">
+<h3>Forward Propagation<a class="headerlink" href="#forward-propagation" title="Permalink to this headline">#</a></h3>
+<p>Everything starts with the forward propagation (pass). PyTorch tracks all the instructions, as we declare the variables and operations, and it builds the graph when we call the <code class="docutils literal notranslate"><span class="pre">.backward()</span></code> pass. PyTorch rebuilds the graph every time we iterate or change it (or simply put, PyTorch uses a dynamic graph).</p>
+<p>For gradient descent, it is only required to have the gradients of cost function with respect to the variables we wish to learn. These variables are often called “learnable / trainable parameters” or simply “parameters” in PyTorch. In neural nets, weights and biases are often the learnable parameters.</p>
+<section id="buiding-a-computational-graph">
+<h4>Buiding a Computational Graph<a class="headerlink" href="#buiding-a-computational-graph" title="Permalink to this headline">#</a></h4>
+<p>In PyTorch, to indicate that a certain tensor contains learnable parameters, we can set the optional argument <code class="docutils literal notranslate"><span class="pre">requires_grad</span></code> to <code class="docutils literal notranslate"><span class="pre">True</span></code>. PyTorch will then track every operation using this tensor while configuring the computational graph. For this code snippet, use the provided tensors to build the following graph, which implements a single neuron with scalar input and output.</p>
+<br>
+<center><img src="https://raw.githubusercontent.com/NeuromatchAcademy/course-content-dl/main/tutorials/W1D2_LinearDeepLearning/static/simple_graph.png" alt="Simple nn graph" width="600"/></center><div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">SimpleGraph</span><span class="p">:</span>
+  <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Implementing Simple Computational Graph</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Initializing the SimpleGraph</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      w: float</span>
+<span class="sd">        Initial value for weight</span>
+<span class="sd">      b: float</span>
+<span class="sd">        Initial value for bias</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">      Nothing</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">w</span><span class="p">],</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">b</span><span class="p">],</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Forward pass</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      x: torch.Tensor</span>
+<span class="sd">        1D tensor of features</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">      prediction: torch.Tensor</span>
+<span class="sd">        Model predictions</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span>
+    
+    <span class="n">prediction</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">prediction</span>
+
+
+<span class="k">def</span> <span class="nf">sq_loss</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_prediction</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  L2 loss function</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    y_true: torch.Tensor</span>
+<span class="sd">      1D tensor of target labels</span>
+<span class="sd">    y_prediction: torch.Tensor</span>
+<span class="sd">      1D tensor of predictions</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    loss: torch.Tensor</span>
+<span class="sd">      L2-loss (squared error)</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span>
+  <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">y_prediction</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span>
+  
+  <span class="n">loss</span> <span class="o">=</span> <span class="p">(</span><span class="n">y_true</span> <span class="o">-</span> <span class="n">y_prediction</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+  <span class="k">return</span> <span class="n">loss</span>
+
+
+
+<span class="n">feature</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">1</span><span class="p">])</span>  <span class="c1"># Input tensor</span>
+<span class="n">target</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">7</span><span class="p">])</span>  <span class="c1"># Target tensor</span>
+<span class="n">simple_graph</span> <span class="o">=</span> <span class="n">SimpleGraph</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;initial weight = </span><span class="si">{</span><span class="n">simple_graph</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">}</span><span class="s2">, &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">initial bias = </span><span class="si">{</span><span class="n">simple_graph</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">prediction</span> <span class="o">=</span> <span class="n">simple_graph</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">feature</span><span class="p">)</span>
+<span class="n">square_loss</span> <span class="o">=</span> <span class="n">sq_loss</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">prediction</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;for x=</span><span class="si">{</span><span class="n">feature</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">}</span><span class="s2"> and y=</span><span class="si">{</span><span class="n">target</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">}</span><span class="s2">, &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;prediction=</span><span class="si">{</span><span class="n">prediction</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">}</span><span class="s2">, and L2 Loss = </span><span class="si">{</span><span class="n">square_loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>initial weight = -0.5, 
+initial bias = 0.5
+for x=1 and y=7, prediction=0.0, and L2 Loss = 49.0
+</pre></div>
+</div>
+</div>
+</div>
+<p>It is important to appreciate the fact that PyTorch can follow our operations as we arbitrarily go through classes and functions.</p>
+</section>
+</section>
+<section id="backward-propagation">
+<h3>Backward Propagation<a class="headerlink" href="#backward-propagation" title="Permalink to this headline">#</a></h3>
+<p>Here is where all the magic lies. In PyTorch, <code class="docutils literal notranslate"><span class="pre">Tensor</span></code> and <code class="docutils literal notranslate"><span class="pre">Function</span></code> are interconnected and build up an acyclic graph, that encodes a complete history of computation. Each variable has a <code class="docutils literal notranslate"><span class="pre">grad_fn</span></code> attribute that references a function that has created the Tensor (except for Tensors created by the user - these have <code class="docutils literal notranslate"><span class="pre">None</span></code> as <code class="docutils literal notranslate"><span class="pre">grad_fn</span></code>).  The example below shows that the tensor <code class="docutils literal notranslate"><span class="pre">c</span> <span class="pre">=</span> <span class="pre">a</span> <span class="pre">+</span> <span class="pre">b</span></code> is created by the <code class="docutils literal notranslate"><span class="pre">Add</span></code> operation and the gradient function is the object <code class="docutils literal notranslate"><span class="pre">&lt;AddBackward...&gt;</span></code>. Replace <code class="docutils literal notranslate"><span class="pre">+</span></code> with other single operations (e.g., <code class="docutils literal notranslate"><span class="pre">c</span> <span class="pre">=</span> <span class="pre">a</span> <span class="pre">*</span> <span class="pre">b</span></code> or <code class="docutils literal notranslate"><span class="pre">c</span> <span class="pre">=</span> <span class="pre">torch.sin(a)</span></code>) and examine the results.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mf">1.0</span><span class="p">],</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="o">-</span><span class="mf">1.0</span><span class="p">],</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Gradient function = </span><span class="si">{</span><span class="n">c</span><span class="o">.</span><span class="n">grad_fn</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Gradient function = &lt;AddBackward0 object at 0x7f88a15a0a90&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<p>For more complex functions, printing the <code class="docutils literal notranslate"><span class="pre">grad_fn</span></code> would only show the last operation, even though the object tracks all the operations up to that point:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Gradient function for prediction = </span><span class="si">{</span><span class="n">prediction</span><span class="o">.</span><span class="n">grad_fn</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Gradient function for loss = </span><span class="si">{</span><span class="n">square_loss</span><span class="o">.</span><span class="n">grad_fn</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Gradient function for prediction = &lt;TanhBackward0 object at 0x7f88a15fb090&gt;
+Gradient function for loss = &lt;PowBackward0 object at 0x7f88a15fb190&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now let’s kick off the backward pass to calculate the gradients by calling <code class="docutils literal notranslate"><span class="pre">.backward()</span></code> on the tensor we wish to initiate the backpropagation from. Often, <code class="docutils literal notranslate"><span class="pre">.backward()</span></code> is called on the loss, which is the last node on the graph. Before doing that, let’s calculate the loss gradients by hand:</p>
+<div class="math notranslate nohighlight">
+\[\frac{\partial{loss}}{\partial{w}} = - 2 x (y_t - y_p)(1 - y_p^2)\]</div>
+<div class="math notranslate nohighlight">
+\[\frac{\partial{loss}}{\partial{b}} = - 2 (y_t - y_p)(1 - y_p^2)\]</div>
+<p>Where <span class="math notranslate nohighlight">\(y_t\)</span> is the target (true label), and <span class="math notranslate nohighlight">\(y_p\)</span> is the prediction (model output). We can then compare it to PyTorch gradients, which can be obtained by calling <code class="docutils literal notranslate"><span class="pre">.grad</span></code> on the relevant tensors.</p>
+<p><strong>Important Notes:</strong></p>
+<ul class="simple">
+<li><p>Learnable parameters (i.e. <code class="docutils literal notranslate"><span class="pre">requires_grad</span></code> tensors) are “contagious”. Let’s look at a simple example: <code class="docutils literal notranslate"><span class="pre">Y</span> <span class="pre">=</span> <span class="pre">W</span> <span class="pre">&#64;</span> <span class="pre">X</span></code>, where <code class="docutils literal notranslate"><span class="pre">X</span></code> is the feature tensors and <code class="docutils literal notranslate"><span class="pre">W</span></code> is the weight tensor (learnable parameters, <code class="docutils literal notranslate"><span class="pre">requires_grad</span></code>), the newly generated output tensor <code class="docutils literal notranslate"><span class="pre">Y</span></code> will be also <code class="docutils literal notranslate"><span class="pre">requires_grad</span></code>. So any operation that is applied to <code class="docutils literal notranslate"><span class="pre">Y</span></code> will be part of the computational graph. Therefore, if we need to plot or store a tensor that is <code class="docutils literal notranslate"><span class="pre">requires_grad</span></code>, we must first <code class="docutils literal notranslate"><span class="pre">.detach()</span></code> it from the graph by calling the <code class="docutils literal notranslate"><span class="pre">.detach()</span></code> method on that tensor.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">.backward()</span></code> accumulates gradients in the leaf nodes (i.e., the input nodes to the node of interest). We can call <code class="docutils literal notranslate"><span class="pre">.zero_grad()</span></code> on the loss or optimizer to zero out all <code class="docutils literal notranslate"><span class="pre">.grad</span></code> attributes (see <a class="reference external" href="https://pytorch.org/docs/stable/autograd.html#torch.autograd.backward">autograd.backward</a> for more information).</p></li>
+<li><p>Recall that in python we can access variables and associated methods with <code class="docutils literal notranslate"><span class="pre">.method_name</span></code>. You can use the command <code class="docutils literal notranslate"><span class="pre">dir(my_object)</span></code> to observe all variables and associated methods to your object, e.g., <code class="docutils literal notranslate"><span class="pre">dir(simple_graph.w)</span></code>.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Analytical gradients (Remember detaching)</span>
+<span class="n">ana_dloss_dw</span> <span class="o">=</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">feature</span> <span class="o">*</span> <span class="p">(</span><span class="n">target</span> <span class="o">-</span> <span class="n">prediction</span><span class="o">.</span><span class="n">detach</span><span class="p">())</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">prediction</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">ana_dloss_db</span> <span class="o">=</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">target</span> <span class="o">-</span> <span class="n">prediction</span><span class="o">.</span><span class="n">detach</span><span class="p">())</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">prediction</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">square_loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>  <span class="c1"># First we should call the backward to build the graph</span>
+<span class="n">autograd_dloss_dw</span> <span class="o">=</span> <span class="n">simple_graph</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">grad</span>  <span class="c1"># We calculate the derivative w.r.t weights</span>
+<span class="n">autograd_dloss_db</span> <span class="o">=</span> <span class="n">simple_graph</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">grad</span>  <span class="c1"># We calculate the derivative w.r.t bias</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">ana_dloss_dw</span> <span class="o">==</span> <span class="n">autograd_dloss_dw</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ana_dloss_db</span> <span class="o">==</span> <span class="n">autograd_dloss_db</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([True])
+tensor([True])
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="references-and-more">
+<h2>References and more:<a class="headerlink" href="#references-and-more" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://pytorch.org/tutorials/beginner/blitz/autograd_tutorial.html">A gentle introduction to torch.autograd</a></p></li>
+<li><p><a class="reference external" href="https://pytorch.org/docs/stable/autograd.html">Automatic Differentiation package - torch.autograd</a></p></li>
+<li><p><a class="reference external" href="https://pytorch.org/docs/stable/notes/autograd.html">Autograd mechanics</a></p></li>
+<li><p><a class="reference external" href="https://pytorch.org/tutorials/beginner/basics/autogradqs_tutorial.html">Automatic Differentiation with torch.autograd</a></p></li>
+</ul>
+<p><strong>Acknowledgements</strong></p>
+<p>Code adopted from the Deep Learning Summer School offered by Neuromatch Academy</p>
+<p><a class="reference external" href="https://deeplearning.neuromatch.io/tutorials/intro.html">https://deeplearning.neuromatch.io/tutorials/intro.html</a></p>
+</section>
+</section>
 
 
 <script type="application/vnd.jupyter.widget-state+json">
-{"state": {"b10f636828dd49019f3471dc0845b009": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.1.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.1.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.1.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "0ad1d4637fa34516abeb9a4f91fed3e7": {"model_name": "OutputModel", "model_module": "@jupyter-widgets/output", "model_module_version": "1.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/output", "_model_module_version": "1.0.0", "_model_name": "OutputModel", "_view_count": null, "_view_module": "@jupyter-widgets/output", "_view_module_version": "1.0.0", "_view_name": "OutputView", "layout": "IPY_MODEL_b10f636828dd49019f3471dc0845b009", "msg_id": "", "outputs": [{"output_type": "stream", "name": "stdout", "text": "Video available at https://youtube.com/watch?v=8sjbwfHdqW8\n"}, {"output_type": "display_data", "metadata": {}, "data": {"text/plain": "<IPython.lib.display.YouTubeVideo at 0x25e5b159f88>", "text/html": "\n        <iframe\n            width=\"854\"\n            height=\"480\"\n            src=\"https://www.youtube.com/embed/8sjbwfHdqW8?fs=1&rel=0\"\n            frameborder=\"0\"\n            allowfullscreen\n        ></iframe>\n        ", "image/jpeg": "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fw1PWnGPe81b+Gp60H1BF8v4x73mrfw1PWnGPe81b+Gp60H1BF8v4x73mrfw1PWnGPe81b+Gp60H1BF8v4x73mrfw1PWnGPe81b+Gp60H1BF8v4x73mrfw1PWnGPe81b+Gp60H1BF8v4x73mrfw1PWnGPe81b+Gp60H1BF8v4x73mrfw1PWnGPe81b+Gp60H1BF8v4x73mrfw1PWnGPe81b+Gp60H1BF8v4x73mrfw1PWnGPe81b+Gp60H1BF8v4x73mrfw1PWnGPe81b+Gp60H0W5PK7FT6R0wKRLGwXDWdy42p/wDUC8cZNOh2Nf6lUVtP1nkkhknXkfut42e9jKX3OnvdIPfDnuLtoB/NQTeASQ0kkySdqo6mmartbWao1H7rz8WqZclmXQfut3k9GZh6rg1nOOJ2udakGSNaoTpmof4Wdx+6wNMVQIhncfuuWUlu9umNsmlxWqYSGjZr6SgeCQR2qkOk6hMkN7j90+Jv3N7j91be7PhdRb3tSjymOgjZsPWum0RpgXAwkYagEkbD1L5r8ZqxGFncfuvdtp6tSe17AyWncfPNLqklirREWWxERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQf/9k=\n"}}]}}}, "version_major": 2, "version_minor": 0}
+{"state": {"c12c2a04ec01466b836b868a44475ed5": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "0f8497bd2d0d4f8b8af41ee77dd9498d": {"model_name": "OutputModel", "model_module": "@jupyter-widgets/output", "model_module_version": "1.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/output", "_model_module_version": "1.0.0", "_model_name": "OutputModel", "_view_count": null, "_view_module": "@jupyter-widgets/output", "_view_module_version": "1.0.0", "_view_name": "OutputView", "layout": "IPY_MODEL_c12c2a04ec01466b836b868a44475ed5", "msg_id": "", "outputs": [{"output_type": "stream", "name": "stdout", "text": "Video available at https://youtube.com/watch?v=8sjbwfHdqW8\n"}, {"output_type": "display_data", "metadata": {}, "data": {"text/plain": "<IPython.lib.display.YouTubeVideo at 0x7f8911f76e10>", "text/html": "\n        <iframe\n            width=\"854\"\n            height=\"480\"\n            src=\"https://www.youtube.com/embed/8sjbwfHdqW8?fs=1&rel=0\"\n            frameborder=\"0\"\n            allowfullscreen\n        ></iframe>\n        ", "image/jpeg": "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fw1PWnGPe81b+Gp60H1BF8v4x73mrfw1PWnGPe81b+Gp60H1BF8v4x73mrfw1PWnGPe81b+Gp60H1BF8v4x73mrfw1PWnGPe81b+Gp60H1BF8v4x73mrfw1PWnGPe81b+Gp60H1BF8v4x73mrfw1PWnGPe81b+Gp60H1BF8v4x73mrfw1PWnGPe81b+Gp60H1BF8v4x73mrfw1PWnGPe81b+Gp60H1BF8v4x73mrfw1PWnGPe81b+Gp60H1BF8v4x73mrfw1PWnGPe81b+Gp60H0W5PK7FT6R0wKRLGwXDWdy42p/wDUC8cZNOh2Nf6lUVtP1nkkhknXkfut42e9jKX3OnvdIPfDnuLtoB/NQTeASQ0kkySdqo6mmartbWao1H7rz8WqZclmXQfut3k9GZh6rg1nOOJ2udakGSNaoTpmof4Wdx+6wNMVQIhncfuuWUlu9umNsmlxWqYSGjZr6SgeCQR2qkOk6hMkN7j90+Jv3N7j91be7PhdRb3tSjymOgjZsPWum0RpgXAwkYagEkbD1L5r8ZqxGFncfuvdtp6tSe17AyWncfPNLqklirREWWxERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQf/9k=\n"}}]}}}, "version_major": 2, "version_minor": 0}
 </script>
 
 
@@ -852,7 +1492,7 @@ alt="button link to Airtable" style="width:200px"></a>
         },
         kernelOptions: {
             kernelName: "python3",
-            path: "./notebooks\Week_4"
+            path: "./notebooks/Week_4"
         },
         predefinedOutput: true
     }
@@ -861,42 +1501,48 @@ alt="button link to Airtable" style="width:200px"></a>
 
               </div>
               
-            
-                <!-- Previous / next buttons -->
-<div class='prev-next-area'> 
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
     <a class='left-prev' id="prev-link" href="Week_4_Lecture_2.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Lecture 2: Neural Networks: A Review Part 2</p>
+            <p class="prev-next-title">Lecture 2: Neural Networks: A Review Part 2 <sup><mark style="background-color:gold">Code</mark> </sup></p>
         </div>
     </a>
     <a class='right-next' id="next-link" href="Week_4_Lecture_4.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Lecture 4: Feedforward Neural Networks and Backpropagation Part 2</p>
+        <p class="prev-next-title">Lecture 4: Feedforward Neural Networks and Backpropagation Part 2 <sup><mark style="background-color:gold">Code</mark> </sup></p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>
 </div>
-            
+            </footer>
         </div>
     </div>
-    <footer class="footer">
-  <p>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Dr Vineeth N Balasubramanian<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
     
-      By Dr Vineeth N Balasubramanian<br/>
-    
-        &copy; Copyright 2021.<br/>
-  </p>
-</footer>
-</main>
+</div>
 
 
       </div>
     </div>
   
-  <script src="../../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
 
   </body>
 </html>

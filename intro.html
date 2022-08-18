@@ -4,11 +4,13 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Welcome to the Course &#8212; Deep Learning For Computer Vision</title>
     
-  <link href="_static/css/theme.css" rel="stylesheet">
-  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 
     
   <link rel="stylesheet"
@@ -18,20 +20,16 @@
   <link rel="preload" as="font" type="font/woff2" crossorigin
     href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
-    
-      
-
-    
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
     
-  <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
 
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
@@ -39,12 +37,13 @@
     <script src="_static/doctools.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="_static/togglebutton.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script src="_static/design-tabs.js"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
@@ -52,7 +51,7 @@ const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.14.0/dist/embed-amd.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Prerequisites" href="Prereq.html" />
@@ -63,7 +62,21 @@ const thebe_selector_output = ".output, .cell_output"
     <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
     
     <div class="container-fluid" id="banner"></div>
 
@@ -72,9 +85,10 @@ const thebe_selector_output = ".output, .cell_output"
     <div class="container-xl">
       <div class="row">
           
-<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
-    
-        <div class="navbar-brand-box">
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
     <a class="navbar-brand text-wrap" href="index.html">
       
         <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
@@ -92,14 +106,15 @@ const thebe_selector_output = ".output, .cell_output"
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1 current active">
+                <a class="reference internal" href="#">
+                    Welcome to the Course
+                </a>
+            </li>
+        </ul>
         <ul class="nav bd-sidenav">
- <li class="toctree-l1 current">
-  <a class="reference internal" href="#">
-   Welcome to the Course
-  </a>
- </li>
-</ul>
-<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="Prereq.html">
    Prerequisites
@@ -279,51 +294,101 @@ const thebe_selector_output = ".output, .cell_output"
    <li class="toctree-l2">
     <a class="reference internal" href="notebooks/Week_4/Week_4_Lecture_1.html">
      Lecture 1 : Neural Networks: A Review Part 1
+     <sup>
+      <mark style="background-color:gold">
+       Code
+      </mark>
+     </sup>
     </a>
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="notebooks/Week_4/Week_4_Lecture_2.html">
      Lecture 2: Neural Networks: A Review Part 2
+     <sup>
+      <mark style="background-color:gold">
+       Code
+      </mark>
+     </sup>
     </a>
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="notebooks/Week_4/Week_4_Lecture_3.html">
      Lecture 3: Feedforward Neural Networks and Backpropagation Part 1
+     <sup>
+      <mark style="background-color:gold">
+       Code
+      </mark>
+     </sup>
     </a>
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="notebooks/Week_4/Week_4_Lecture_4.html">
      Lecture 4: Feedforward Neural Networks and Backpropagation Part 2
+     <sup>
+      <mark style="background-color:gold">
+       Code
+      </mark>
+     </sup>
     </a>
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="notebooks/Week_4/Week_4_Lecture_5.html">
      Lecture 5: Gradient Descent and Variants Part 1
+     <sup>
+      <mark style="background-color:gold">
+       Code
+      </mark>
+     </sup>
     </a>
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="notebooks/Week_4/Week_4_Lecture_6.html">
      Lecture 6: Gradient Descent and Variants Part 2
+     <sup>
+      <mark style="background-color:gold">
+       Code
+      </mark>
+     </sup>
     </a>
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="notebooks/Week_4/Week_4_Lecture_7.html">
      Lecture 7: Regularization in Neural Networks Part 1
+     <sup>
+      <mark style="background-color:gold">
+       Code
+      </mark>
+     </sup>
     </a>
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="notebooks/Week_4/Week_4_Lecture_8.html">
      Lecture 8: Regularization in Neural Networks Part 2
+     <sup>
+      <mark style="background-color:gold">
+       Code
+      </mark>
+     </sup>
     </a>
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="notebooks/Week_4/Week_4_Lecture_9.html">
      Lecture 9: Improving Training of Neural Networks Part 1
+     <sup>
+      <mark style="background-color:gold">
+       Code
+      </mark>
+     </sup>
     </a>
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="notebooks/Week_4/Week_4_Lecture_10.html">
      Lecture 10: Improving Training of Neural Networks Part 2
+     <sup>
+      <mark style="background-color:gold">
+       Code
+      </mark>
+     </sup>
     </a>
    </li>
   </ul>
@@ -672,90 +737,180 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 
     </div>
-</nav> <!-- To handle the deprecated key -->
-
-<div class="navbar_extra_footer">
-  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-</div>
-
-</div>
-
-
-          
-
-
-          
-<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
-    
-    <div class="topbar container-xl fixed-top">
-    <div class="topbar-contents row">
-        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
-        <div class="col pl-md-4 topbar-main">
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
             
-            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
-                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
-                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
-                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
-                <i class="fas fa-bars"></i>
-                <i class="fas fa-arrow-left"></i>
-                <i class="fas fa-arrow-up"></i>
-            </button>
-            
-            
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
-            class="fas fa-download"></i></button>
-
-    <div class="dropdown-buttons">
-        <!-- ipynb file if we had a myst markdown file -->
-        
-        <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/intro.md"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
-                data-placement="left">.md</button></a>
-        <!-- Download PDF via print -->
-        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
-    </div>
-</div>
-
-            <!-- Source interaction buttons -->
-
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
-    <div class="dropdown-buttons sourcebuttons">
-        <a class="repository-button"
-            href="https://github.com/executablebooks/jupyter-book"><button type="button" class="btn btn-secondary topbarbtn"
-                data-toggle="tooltip" data-placement="left" title="Source repository"><i
-                    class="fab fa-github"></i>repository</button></a>
-        <a class="issues-button"
-            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fintro.html&body=Your%20issue%20content%20here."><button
-                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
-                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
-        
-    </div>
-</div>
-
-            <!-- Full screen (wrap in <a> to have style consistency -->
-
-<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-        title="Fullscreen mode"><i
-            class="fas fa-expand"></i></button></a>
-
-            <!-- Launch buttons -->
-
-        </div>
-
-        <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
-            
-            <div class="tocsection onthispage pt-5 pb-3">
-                <i class="fas fa-list"></i> Contents
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
             </div>
-            <nav id="bd-toc-nav" aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/executablebooks/jupyter-book"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fintro.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="_sources/intro.md"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.md</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#course-cirriculum">
    Course Cirriculum
@@ -835,12 +990,11 @@ const thebe_selector_output = ".output, .cell_output"
  </li>
 </ul>
 
-            </nav>
-        </div>
-    </div>
+    </nav>
 </div>
-    <div id="main-content" class="row">
-        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
                 <h1>Welcome to the Course</h1>
@@ -936,83 +1090,84 @@ const thebe_selector_output = ".output, .cell_output"
                     </div>
                 </div>
             </div>
-            
+            <main id="main-content" role="main">
+                
               <div>
                 
-  <div class="tex2jax_ignore mathjax_ignore section" id="welcome-to-the-course">
-<h1>Welcome to the Course<a class="headerlink" href="#welcome-to-the-course" title="Permalink to this headline">¶</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="welcome-to-the-course">
+<h1>Welcome to the Course<a class="headerlink" href="#welcome-to-the-course" title="Permalink to this headline">#</a></h1>
 <iframe width="800" height="480" src="https://www.youtube.com/embed/Pu35DppbXO8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 <br>
 <br>
 <p align="justify">The automatic analysis and understanding of images and videos, a field called Computer Vision, occupies significant importance in applications including security, healthcare, entertainment, mobility, etc. The recent success of deep learning methods has revolutionized the field of computer vision, making new developments increasingly closer to deployment that benefits end users. This course will introduce the students to traditional computer vision topics, before presenting deep learning methods for computer vision. The course will cover basics as well as recent advancements in these areas, which will help the student learn the basics as well as become proficient in applying these methods to real-world applications. The course assumes that the student has already completed a full course in machine learning, and some introduction to deep learning preferably, and will build on these topics focusing on computer vision.</p>
 <p><font size="5"> Fall 2022 Link : <a class="reference external" href="https://onlinecourses.nptel.ac.in/noc22_cs76/preview">https://onlinecourses.nptel.ac.in/noc22_cs76/preview</a> </font></p>
-<div class="section" id="course-cirriculum">
-<h2>Course Cirriculum<a class="headerlink" href="#course-cirriculum" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="week-1-introduction-and-overview">
-<h3>Week 1:Introduction and Overview:<a class="headerlink" href="#week-1-introduction-and-overview" title="Permalink to this headline">¶</a></h3>
+<section id="course-cirriculum">
+<h2>Course Cirriculum<a class="headerlink" href="#course-cirriculum" title="Permalink to this headline">#</a></h2>
+<section id="week-1-introduction-and-overview">
+<h3>Week 1:Introduction and Overview:<a class="headerlink" href="#week-1-introduction-and-overview" title="Permalink to this headline">#</a></h3>
 <p>Course Overview and Motivation; Introduction to Image Formation, Capture and Representation; Linear Filtering, Correlation,          Convolution</p>
-</div>
-<div class="section" id="week-2-visual-features-and-representations">
-<h3>Week 2:Visual Features and Representations:<a class="headerlink" href="#week-2-visual-features-and-representations" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="week-2-visual-features-and-representations">
+<h3>Week 2:Visual Features and Representations:<a class="headerlink" href="#week-2-visual-features-and-representations" title="Permalink to this headline">#</a></h3>
 <p>Edge, Blobs, Corner Detection; Scale Space and Scale Selection; SIFT, SURF; HoG, LBP, etc.</p>
-</div>
-<div class="section" id="week-3-visual-matching">
-<h3>Week 3:Visual Matching:<a class="headerlink" href="#week-3-visual-matching" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="week-3-visual-matching">
+<h3>Week 3:Visual Matching:<a class="headerlink" href="#week-3-visual-matching" title="Permalink to this headline">#</a></h3>
 <p>Bag-of-words, VLAD; RANSAC, Hough transform; Pyramid Matching; Optical Flow</p>
-</div>
-<div class="section" id="week-4-deep-learning-review">
-<h3>Week 4:Deep Learning Review:<a class="headerlink" href="#week-4-deep-learning-review" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="week-4-deep-learning-review">
+<h3>Week 4:Deep Learning Review:<a class="headerlink" href="#week-4-deep-learning-review" title="Permalink to this headline">#</a></h3>
 <p>Review of Deep Learning, Multi-layer Perceptrons, Backpropagation</p>
-</div>
-<div class="section" id="week-5-convolutional-neural-networks-cnns">
-<h3>Week 5:Convolutional Neural Networks (CNNs):<a class="headerlink" href="#week-5-convolutional-neural-networks-cnns" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="week-5-convolutional-neural-networks-cnns">
+<h3>Week 5:Convolutional Neural Networks (CNNs):<a class="headerlink" href="#week-5-convolutional-neural-networks-cnns" title="Permalink to this headline">#</a></h3>
 <p>Introduction to CNNs; Evolution of CNN Architectures: AlexNet, ZFNet, VGG, InceptionNets, ResNets, DenseNets</p>
-</div>
-<div class="section" id="week-6-visualization-and-understanding-cnns">
-<h3>Week 6:Visualization and Understanding CNNs:<a class="headerlink" href="#week-6-visualization-and-understanding-cnns" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="week-6-visualization-and-understanding-cnns">
+<h3>Week 6:Visualization and Understanding CNNs:<a class="headerlink" href="#week-6-visualization-and-understanding-cnns" title="Permalink to this headline">#</a></h3>
 <p>Visualization of Kernels; Backprop-to-image/Deconvolution Methods; Deep Dream, Hallucination, Neural Style Transfer;  	CAM,Grad-CAM, Grad-CAM++; Recent Methods (IG, Segment-IG, SmoothGrad)</p>
-</div>
-<div class="section" id="week-7-cnns-for-recognition-verification-detection-segmentation">
-<h3>Week 7:CNNs for Recognition, Verification, Detection, Segmentation:<a class="headerlink" href="#week-7-cnns-for-recognition-verification-detection-segmentation" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="week-7-cnns-for-recognition-verification-detection-segmentation">
+<h3>Week 7:CNNs for Recognition, Verification, Detection, Segmentation:<a class="headerlink" href="#week-7-cnns-for-recognition-verification-detection-segmentation" title="Permalink to this headline">#</a></h3>
 <p>CNNs for Recognition and Verification (Siamese Networks, Triplet Loss, Contrastive Loss, Ranking Loss); CNNs for 	Detection: Background of Object Detection, R-CNN, Fast R-CNN, Faster R-CNN, YOLO, SSD, RetinaNet; CNNs for 	Segmentation: FCN, SegNet, U-Net, Mask-RCNN</p>
-</div>
-<div class="section" id="week-8-recurrent-neural-networks-rnns">
-<h3>Week 8:Recurrent Neural Networks (RNNs):<a class="headerlink" href="#week-8-recurrent-neural-networks-rnns" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="week-8-recurrent-neural-networks-rnns">
+<h3>Week 8:Recurrent Neural Networks (RNNs):<a class="headerlink" href="#week-8-recurrent-neural-networks-rnns" title="Permalink to this headline">#</a></h3>
 <p>Review of RNNs; CNN + RNN Models for Video Understanding: Spatio-temporal Models, Action/Activity Recognition</p>
-</div>
-<div class="section" id="week-9-attention-models">
-<h3>Week 9:Attention Models:<a class="headerlink" href="#week-9-attention-models" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="week-9-attention-models">
+<h3>Week 9:Attention Models:<a class="headerlink" href="#week-9-attention-models" title="Permalink to this headline">#</a></h3>
 <p>Introduction to Attention Models in Vision; Vision and Language: Image Captioning, Visual QA, Visual Dialog; Spatial 	Transformers; Transformer Networks</p>
-</div>
-<div class="section" id="week-10-deep-generative-models">
-<h3>Week 10:Deep Generative Models:<a class="headerlink" href="#week-10-deep-generative-models" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="week-10-deep-generative-models">
+<h3>Week 10:Deep Generative Models:<a class="headerlink" href="#week-10-deep-generative-models" title="Permalink to this headline">#</a></h3>
 <p>Review of (Popular) Deep Generative Models: GANs, VAEs; Other Generative Models: PixelRNNs, NADE, Normalizing 	Flows, etc</p>
-</div>
-<div class="section" id="week-11-variants-and-applications-of-generative-models-in-vision">
-<h3>Week 11:Variants and Applications of Generative Models in Vision:<a class="headerlink" href="#week-11-variants-and-applications-of-generative-models-in-vision" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="week-11-variants-and-applications-of-generative-models-in-vision">
+<h3>Week 11:Variants and Applications of Generative Models in Vision:<a class="headerlink" href="#week-11-variants-and-applications-of-generative-models-in-vision" title="Permalink to this headline">#</a></h3>
 <p>Applications: Image Editing, Inpainting, Superresolution, 3D Object Generation, Security; Variants: CycleGANs, Progressive 	GANs, StackGANs, Pix2Pix, etc</p>
-</div>
-<div class="section" id="week-12-recent-trends">
-<h3>Week 12:Recent Trends:<a class="headerlink" href="#week-12-recent-trends" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="week-12-recent-trends">
+<h3>Week 12:Recent Trends:<a class="headerlink" href="#week-12-recent-trends" title="Permalink to this headline">#</a></h3>
 <p>Zero-shot, One-shot, Few-shot Learning; Self-supervised Learning; Reinforcement Learning in Vision; Other Recent Topics and Applications</p>
-</div>
-</div>
-<div class="section" id="instructor-vineeth-n-balasubramanian">
-<h2>Instructor: Vineeth N Balasubramanian<a class="headerlink" href="#instructor-vineeth-n-balasubramanian" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="instructor-vineeth-n-balasubramanian">
+<h2>Instructor: Vineeth N Balasubramanian<a class="headerlink" href="#instructor-vineeth-n-balasubramanian" title="Permalink to this headline">#</a></h2>
 <img align="right" height="200" width="200" style="border:2px solid black;margin-left: 25px" src="https://github.com/DL4CV-NPTEL/Deep-Learning-For-Computer-Vision/blob/main/Data/Prof_Img.jpg?raw=1" />
 <p align="justify"> Vineeth N. Balasubramanian is an Associate Professor in the department of Computer Science and Engineering at the Indian Institute of Technology, Hyderabad (IIT-H), India. His research interests include deep learning, machine learning, and computer vision. His research has resulted in over 100 peer-reviewed publications at various international venues, including top-tier ones such as ICML, NeurIPS, CVPR, ICCV, KDD, AAAI, etc. His PhD dissertation at Arizona State University on the Conformal Predictions framework was nominated for the Outstanding PhD Dissertation at the Department of Computer Science. For more details, please visit his page, <a href="https://iith.ac.in/~vineethnb/ ">https://iith.ac.in/~vineethnb/ </a>  </p>  
-</div>
-<div class="section" id="teaching-assistants">
-<h2>Teaching Assistants<a class="headerlink" href="#teaching-assistants" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="teaching-assistants">
+<h2>Teaching Assistants<a class="headerlink" href="#teaching-assistants" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>Rishabh Lalla (Research Assistant, Machine Learning and Vision Lab, IIT Hyderabad)</p></li>
 <li><p>Charchit Sharma (Research Assistant, Machine Learning and Vision Lab, IIT Hyderabad)</p></li>
 <li><p>Divyagna Bavikadi (Research Assistant, Machine Learning and Vision Lab, IIT Hyderabad)</p></li>
 </ul>
-</div>
+</section>
 <div class="toctree-wrapper compound">
 </div>
-</div>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -1036,8 +1191,10 @@ const thebe_selector_output = ".output, .cell_output"
 
               </div>
               
-            
-                <!-- Previous / next buttons -->
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
 <div class='prev-next-area'>
     <a class='right-next' id="next-link" href="Prereq.html" title="next page">
     <div class="prev-next-info">
@@ -1047,24 +1204,28 @@ const thebe_selector_output = ".output, .cell_output"
     <i class="fas fa-angle-right"></i>
     </a>
 </div>
-            
+            </footer>
         </div>
     </div>
-    <footer class="footer">
-  <p>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Dr Vineeth N Balasubramanian<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
     
-      By Dr Vineeth N Balasubramanian<br/>
-    
-        &copy; Copyright 2021.<br/>
-  </p>
-</footer>
-</main>
+</div>
 
 
       </div>
     </div>
   
-  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
 
   </body>
 </html>

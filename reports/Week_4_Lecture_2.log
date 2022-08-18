@@ -1,0 +1,64 @@
+Traceback (most recent call last):
+  File "D:\Softwares\Anaconda\envs\jb\lib\site-packages\jupyter_cache\executors\utils.py", line 56, in single_nb_execution
+    record_timing=False,
+  File "D:\Softwares\Anaconda\envs\jb\lib\site-packages\nbclient\client.py", line 1204, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "D:\Softwares\Anaconda\envs\jb\lib\site-packages\nbclient\util.py", line 84, in wrapped
+    return just_run(coro(*args, **kwargs))
+  File "D:\Softwares\Anaconda\envs\jb\lib\site-packages\nbclient\util.py", line 62, in just_run
+    return loop.run_until_complete(coro)
+  File "D:\Softwares\Anaconda\envs\jb\lib\asyncio\base_events.py", line 587, in run_until_complete
+    return future.result()
+  File "D:\Softwares\Anaconda\envs\jb\lib\site-packages\nbclient\client.py", line 664, in async_execute
+    cell, index, execution_count=self.code_cells_executed + 1
+  File "D:\Softwares\Anaconda\envs\jb\lib\site-packages\nbclient\client.py", line 965, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "D:\Softwares\Anaconda\envs\jb\lib\site-packages\nbclient\client.py", line 862, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+ppn_torch = Perceptron_torch(num_features=2)
+
+X_train_tensor = torch.tensor(X_train, dtype=torch.float32, device=device)
+y_train_tensor = torch.tensor(y_train, dtype=torch.float32, device=device)
+
+ppn_torch.train(X_train_tensor, y_train_tensor, epochs=5)
+
+print('Model parameters:')
+print('  Weights: %s' % ppn_torch.weights)
+print('  Bias: %s' % ppn_torch.bias)
+------------------
+
+[1;31m---------------------------------------------------------------------------[0m
+[1;31mRuntimeError[0m                              Traceback (most recent call last)
+[1;32m<ipython-input-14-4dee8c553469>[0m in [0;36m<module>[1;34m[0m
+[0;32m      4[0m [0my_train_tensor[0m [1;33m=[0m [0mtorch[0m[1;33m.[0m[0mtensor[0m[1;33m([0m[0my_train[0m[1;33m,[0m [0mdtype[0m[1;33m=[0m[0mtorch[0m[1;33m.[0m[0mfloat32[0m[1;33m,[0m [0mdevice[0m[1;33m=[0m[0mdevice[0m[1;33m)[0m[1;33m[0m[1;33m[0m[0m
+[0;32m      5[0m [1;33m[0m[0m
+[1;32m----> 6[1;33m [0mppn_torch[0m[1;33m.[0m[0mtrain[0m[1;33m([0m[0mX_train_tensor[0m[1;33m,[0m [0my_train_tensor[0m[1;33m,[0m [0mepochs[0m[1;33m=[0m[1;36m5[0m[1;33m)[0m[1;33m[0m[1;33m[0m[0m
+[0m[0;32m      7[0m [1;33m[0m[0m
+[0;32m      8[0m [0mprint[0m[1;33m([0m[1;34m'Model parameters:'[0m[1;33m)[0m[1;33m[0m[1;33m[0m[0m
+
+[1;32m<ipython-input-13-c17569e4b693>[0m in [0;36mtrain[1;34m(self, x, y, epochs)[0m
+[0;32m     29[0m             [1;32mfor[0m [0mi[0m [1;32min[0m [0mrange[0m[1;33m([0m[0my[0m[1;33m.[0m[0mshape[0m[1;33m[[0m[1;36m0[0m[1;33m][0m[1;33m)[0m[1;33m:[0m[1;33m[0m[1;33m[0m[0m
+[0;32m     30[0m                 [1;31m# use view because backward expects a matrix (i.e., 2D tensor)[0m[1;33m[0m[1;33m[0m[1;33m[0m[0m
+[1;32m---> 31[1;33m                 [0merrors[0m [1;33m=[0m [0mself[0m[1;33m.[0m[0mbackward[0m[1;33m([0m[0mx[0m[1;33m[[0m[0mi[0m[1;33m][0m[1;33m.[0m[0mreshape[0m[1;33m([0m[1;36m1[0m[1;33m,[0m [0mself[0m[1;33m.[0m[0mnum_features[0m[1;33m)[0m[1;33m,[0m [0my[0m[1;33m[[0m[0mi[0m[1;33m][0m[1;33m)[0m[1;33m.[0m[0mreshape[0m[1;33m([0m[1;33m-[0m[1;36m1[0m[1;33m)[0m[1;33m[0m[1;33m[0m[0m
+[0m[0;32m     32[0m                 [0mself[0m[1;33m.[0m[0mweights[0m [1;33m+=[0m [1;33m([0m[0merrors[0m [1;33m*[0m [0mx[0m[1;33m[[0m[0mi[0m[1;33m][0m[1;33m)[0m[1;33m.[0m[0mreshape[0m[1;33m([0m[0mself[0m[1;33m.[0m[0mnum_features[0m[1;33m,[0m [1;36m1[0m[1;33m)[0m[1;33m[0m[1;33m[0m[0m
+[0;32m     33[0m                 [0mself[0m[1;33m.[0m[0mbias[0m [1;33m+=[0m [0merrors[0m[1;33m[0m[1;33m[0m[0m
+
+[1;32m<ipython-input-13-c17569e4b693>[0m in [0;36mbackward[1;34m(self, x, y)[0m
+[0;32m     20[0m [1;33m[0m[0m
+[0;32m     21[0m     [1;32mdef[0m [0mbackward[0m[1;33m([0m[0mself[0m[1;33m,[0m [0mx[0m[1;33m,[0m [0my[0m[1;33m)[0m[1;33m:[0m[1;33m[0m[1;33m[0m[0m
+[1;32m---> 22[1;33m         [0mpredictions[0m [1;33m=[0m [0mself[0m[1;33m.[0m[0mforward[0m[1;33m([0m[0mx[0m[1;33m)[0m[1;33m[0m[1;33m[0m[0m
+[0m[0;32m     23[0m         [0merrors[0m [1;33m=[0m [0my[0m [1;33m-[0m [0mpredictions[0m[1;33m[0m[1;33m[0m[0m
+[0;32m     24[0m         [1;32mreturn[0m [0merrors[0m[1;33m[0m[1;33m[0m[0m
+
+[1;32m<ipython-input-13-c17569e4b693>[0m in [0;36mforward[1;34m(self, x)[0m
+[0;32m     16[0m     [1;32mdef[0m [0mforward[0m[1;33m([0m[0mself[0m[1;33m,[0m [0mx[0m[1;33m)[0m[1;33m:[0m[1;33m[0m[1;33m[0m[0m
+[0;32m     17[0m         [0mlinear[0m [1;33m=[0m [0mtorch[0m[1;33m.[0m[0mmm[0m[1;33m([0m[0mx[0m[1;33m,[0m [0mself[0m[1;33m.[0m[0mweights[0m[1;33m)[0m [1;33m+[0m [0mself[0m[1;33m.[0m[0mbias[0m[1;33m[0m[1;33m[0m[0m
+[1;32m---> 18[1;33m         [0mpredictions[0m [1;33m=[0m [0mtorch[0m[1;33m.[0m[0mwhere[0m[1;33m([0m[0mlinear[0m [1;33m>[0m [1;36m0.[0m[1;33m,[0m [0mself[0m[1;33m.[0m[0mones[0m[1;33m,[0m [0mself[0m[1;33m.[0m[0mzeros[0m[1;33m)[0m[1;33m[0m[1;33m[0m[0m
+[0m[0;32m     19[0m         [1;32mreturn[0m [0mpredictions[0m[1;33m[0m[1;33m[0m[0m
+[0;32m     20[0m [1;33m[0m[0m
+
+[1;31mRuntimeError[0m: Expected all tensors to be on the same device, but found at least two devices, cuda:0 and cpu!
+RuntimeError: Expected all tensors to be on the same device, but found at least two devices, cuda:0 and cpu!
+
