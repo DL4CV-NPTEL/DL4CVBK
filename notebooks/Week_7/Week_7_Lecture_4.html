@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Lecture 4: CNNs for Segmentation &#8212; Deep Learning For Computer Vision</title>
+    <title>Lecture 4: CNNs for Segmentation Code &#8212; Deep Learning For Computer Vision</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -526,6 +526,11 @@ const thebe_selector_output = ".output, .cell_output"
    <li class="toctree-l2 current active">
     <a class="current reference internal" href="#">
      Lecture 4: CNNs for Segmentation
+     <sup>
+      <mark style="background-color:gold">
+       Code
+      </mark>
+     </sup>
     </a>
    </li>
    <li class="toctree-l2">
@@ -536,6 +541,11 @@ const thebe_selector_output = ".output, .cell_output"
    <li class="toctree-l2">
     <a class="reference internal" href="Week_7_Lecture_6.html">
      Lecture 6: CNNs for Human Understanding: Faces -Part 02
+     <sup>
+      <mark style="background-color:gold">
+       Code
+      </mark>
+     </sup>
     </a>
    </li>
    <li class="toctree-l2">
@@ -934,23 +944,200 @@ title="Print to PDF"
     </ul>
   </div>
 </div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
 
     </div>
 </div>
 
 <!-- Table of contents -->
 <div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#enabling-gpu-on-colab">
+   Enabling GPU on Colab
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#helper-functions">
+   Helper functions
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#simulate-data">
+   Simulate data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#synthetic-images-for-demo-training">
+   Synthetic images for demo training
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#left-input-image-black-and-white-right-target-mask-6ch">
+   Left: Input image (black and white), Right: Target mask (6ch)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#prepare-dataset-and-dataloader">
+   Prepare Dataset and DataLoader
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#check-the-outputs-from-dataloader">
+   Check the outputs from DataLoader
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#define-a-unet-module">
+   Define a UNet module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#instantiate-the-unet-model">
+   Instantiate the UNet model
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#loss">
+   Loss
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#define-the-main-training-loop">
+   Define the main training loop
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#training">
+   Training
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#predict-new-images-using-the-trained-model">
+   Predict new images using the trained model
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#left-input-image-middle-correct-mask-ground-truth-rigth-predicted-mask">
+   Left: Input image, Middle: Correct mask (Ground-truth), Rigth: Predicted mask
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#next-steps">
+   Next steps
+  </a>
+ </li>
+</ul>
+
+    </nav>
 </div>
     </div>
     <div class="article row">
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Lecture 4: CNNs for Segmentation</h1>
+                <h1>Lecture 4: CNNs for Segmentation <sup><mark style="background-color:gold">Code</mark> </sup></h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#enabling-gpu-on-colab">
+   Enabling GPU on Colab
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#helper-functions">
+   Helper functions
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#simulate-data">
+   Simulate data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#synthetic-images-for-demo-training">
+   Synthetic images for demo training
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#left-input-image-black-and-white-right-target-mask-6ch">
+   Left: Input image (black and white), Right: Target mask (6ch)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#prepare-dataset-and-dataloader">
+   Prepare Dataset and DataLoader
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#check-the-outputs-from-dataloader">
+   Check the outputs from DataLoader
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#define-a-unet-module">
+   Define a UNet module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#instantiate-the-unet-model">
+   Instantiate the UNet model
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#loss">
+   Loss
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#define-the-main-training-loop">
+   Define the main training loop
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#training">
+   Training
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#predict-new-images-using-the-trained-model">
+   Predict new images using the trained model
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#left-input-image-middle-correct-mask-ground-truth-rigth-predicted-mask">
+   Left: Input image, Middle: Correct mask (Ground-truth), Rigth: Predicted mask
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#next-steps">
+   Next steps
+  </a>
+ </li>
+</ul>
+
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -959,8 +1146,8 @@ title="Print to PDF"
               <div>
                 
   <p><a href="https://colab.research.google.com/github/DL4CV-NPTEL/Deep-Learning-For-Computer-Vision/blob/main/notebooks/Week_7/Week_7_Lecture_4.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a></p>
-<section class="tex2jax_ignore mathjax_ignore" id="lecture-4-cnns-for-segmentation">
-<h1>Lecture 4: CNNs for Segmentation<a class="headerlink" href="#lecture-4-cnns-for-segmentation" title="Permalink to this headline">#</a></h1>
+<section class="tex2jax_ignore mathjax_ignore" id="lecture-4-cnns-for-segmentation-sup-mark-style-background-color-gold-code-mark-sup">
+<h1>Lecture 4: CNNs for Segmentation <sup><mark style="background-color:gold">Code</mark> </sup><a class="headerlink" href="#lecture-4-cnns-for-segmentation-sup-mark-style-background-color-gold-code-mark-sup" title="Permalink to this headline">#</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#@title </span>
@@ -977,7 +1164,7 @@ title="Print to PDF"
 </div>
 <div class="cell_output docutils container">
 <script type="application/vnd.jupyter.widget-view+json">
-{"version_major": 2, "version_minor": 0, "model_id": "6ab3d42b2373459bbbc72fd5547ed591"}
+{"version_major": 2, "version_minor": 0, "model_id": "449ee3899c084946a859e668b9233994"}
 </script></div>
 </div>
 <div class="cell docutils container">
@@ -1002,11 +1189,1147 @@ title="Print to PDF"
 alt="button link to Airtable" style="width:200px"></a>
   </div></div></div>
 </div>
+<section id="enabling-gpu-on-colab">
+<h2>Enabling GPU on Colab<a class="headerlink" href="#enabling-gpu-on-colab" title="Permalink to this headline">#</a></h2>
+<p>Need to enable GPU from Notebook settings</p>
+<ul class="simple">
+<li><p>Navigate to Edit-Notebook settings menu</p></li>
+<li><p>Select GPU from the Hardware Accelerator dropdown list</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+
+<span class="k">if</span> <span class="ow">not</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">():</span>
+  <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;GPU not availalbe. CPU training will be too slow.&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;device name&quot;</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">get_device_name</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>device name Tesla T4
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="helper-functions">
+<h2>Helper functions<a class="headerlink" href="#helper-functions" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="k">def</span> <span class="nf">plot_img_array</span><span class="p">(</span><span class="n">img_array</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+    <span class="n">nrow</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">img_array</span><span class="p">)</span> <span class="o">//</span> <span class="n">ncol</span>
+
+    <span class="n">f</span><span class="p">,</span> <span class="n">plots</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrow</span><span class="p">,</span> <span class="n">ncol</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="n">ncol</span> <span class="o">*</span> <span class="mi">4</span><span class="p">,</span> <span class="n">nrow</span> <span class="o">*</span> <span class="mi">4</span><span class="p">))</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">img_array</span><span class="p">)):</span>
+        <span class="n">plots</span><span class="p">[</span><span class="n">i</span> <span class="o">//</span> <span class="n">ncol</span><span class="p">,</span> <span class="n">i</span> <span class="o">%</span> <span class="n">ncol</span><span class="p">]</span>
+        <span class="n">plots</span><span class="p">[</span><span class="n">i</span> <span class="o">//</span> <span class="n">ncol</span><span class="p">,</span> <span class="n">i</span> <span class="o">%</span> <span class="n">ncol</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img_array</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">reduce</span>
+<span class="k">def</span> <span class="nf">plot_side_by_side</span><span class="p">(</span><span class="n">img_arrays</span><span class="p">):</span>
+    <span class="n">flatten_list</span> <span class="o">=</span> <span class="n">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">:</span> <span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="p">,</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">img_arrays</span><span class="p">))</span>
+
+    <span class="n">plot_img_array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">flatten_list</span><span class="p">),</span> <span class="n">ncol</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">img_arrays</span><span class="p">))</span>
+
+<span class="kn">import</span> <span class="nn">itertools</span>
+<span class="k">def</span> <span class="nf">plot_errors</span><span class="p">(</span><span class="n">results_dict</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
+    <span class="n">markers</span> <span class="o">=</span> <span class="n">itertools</span><span class="o">.</span><span class="n">cycle</span><span class="p">((</span><span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">))</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">title</span><span class="p">))</span>
+
+    <span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">result</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">results_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="nb">next</span><span class="p">(</span><span class="n">markers</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;dice_coef&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;epoch&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">masks_to_colorimg</span><span class="p">(</span><span class="n">masks</span><span class="p">):</span>
+    <span class="n">colors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([(</span><span class="mi">201</span><span class="p">,</span> <span class="mi">58</span><span class="p">,</span> <span class="mi">64</span><span class="p">),</span> <span class="p">(</span><span class="mi">242</span><span class="p">,</span> <span class="mi">207</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">152</span><span class="p">,</span> <span class="mi">75</span><span class="p">),</span> <span class="p">(</span><span class="mi">101</span><span class="p">,</span> <span class="mi">172</span><span class="p">,</span> <span class="mi">228</span><span class="p">),(</span><span class="mi">56</span><span class="p">,</span> <span class="mi">34</span><span class="p">,</span> <span class="mi">132</span><span class="p">),</span> <span class="p">(</span><span class="mi">160</span><span class="p">,</span> <span class="mi">194</span><span class="p">,</span> <span class="mi">56</span><span class="p">)])</span>
+
+    <span class="n">colorimg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">masks</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">masks</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span> <span class="o">*</span> <span class="mi">255</span>
+    <span class="n">channels</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="n">masks</span><span class="o">.</span><span class="n">shape</span>
+
+    <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">height</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">width</span><span class="p">):</span>
+            <span class="n">selected_colors</span> <span class="o">=</span> <span class="n">colors</span><span class="p">[</span><span class="n">masks</span><span class="p">[:,</span><span class="n">y</span><span class="p">,</span><span class="n">x</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">selected_colors</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">colorimg</span><span class="p">[</span><span class="n">y</span><span class="p">,</span><span class="n">x</span><span class="p">,:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">selected_colors</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">colorimg</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="simulate-data">
+<h2>Simulate data<a class="headerlink" href="#simulate-data" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">random</span>
+
+<span class="k">def</span> <span class="nf">generate_random_data</span><span class="p">(</span><span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">count</span><span class="p">):</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="n">generate_img_and_mask</span><span class="p">(</span><span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">count</span><span class="p">)])</span>
+
+    <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="mi">255</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+    <span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span>
+
+<span class="k">def</span> <span class="nf">generate_img_and_mask</span><span class="p">(</span><span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="p">):</span>
+    <span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="p">)</span>
+
+    <span class="n">triangle_location</span> <span class="o">=</span> <span class="n">get_random_location</span><span class="p">(</span><span class="o">*</span><span class="n">shape</span><span class="p">)</span>
+    <span class="n">circle_location1</span> <span class="o">=</span> <span class="n">get_random_location</span><span class="p">(</span><span class="o">*</span><span class="n">shape</span><span class="p">,</span> <span class="n">zoom</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+    <span class="n">circle_location2</span> <span class="o">=</span> <span class="n">get_random_location</span><span class="p">(</span><span class="o">*</span><span class="n">shape</span><span class="p">,</span> <span class="n">zoom</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">mesh_location</span> <span class="o">=</span> <span class="n">get_random_location</span><span class="p">(</span><span class="o">*</span><span class="n">shape</span><span class="p">)</span>
+    <span class="n">square_location</span> <span class="o">=</span> <span class="n">get_random_location</span><span class="p">(</span><span class="o">*</span><span class="n">shape</span><span class="p">,</span> <span class="n">zoom</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+    <span class="n">plus_location</span> <span class="o">=</span> <span class="n">get_random_location</span><span class="p">(</span><span class="o">*</span><span class="n">shape</span><span class="p">,</span> <span class="n">zoom</span><span class="o">=</span><span class="mf">1.2</span><span class="p">)</span>
+
+    <span class="c1"># Create input image</span>
+    <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+    <span class="n">arr</span> <span class="o">=</span> <span class="n">add_triangle</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="o">*</span><span class="n">triangle_location</span><span class="p">)</span>
+    <span class="n">arr</span> <span class="o">=</span> <span class="n">add_circle</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="o">*</span><span class="n">circle_location1</span><span class="p">)</span>
+    <span class="n">arr</span> <span class="o">=</span> <span class="n">add_circle</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="o">*</span><span class="n">circle_location2</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">arr</span> <span class="o">=</span> <span class="n">add_mesh_square</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="o">*</span><span class="n">mesh_location</span><span class="p">)</span>
+    <span class="n">arr</span> <span class="o">=</span> <span class="n">add_filled_square</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="o">*</span><span class="n">square_location</span><span class="p">)</span>
+    <span class="n">arr</span> <span class="o">=</span> <span class="n">add_plus</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="o">*</span><span class="n">plus_location</span><span class="p">)</span>
+    <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+
+    <span class="c1"># Create target masks</span>
+    <span class="n">masks</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span>
+        <span class="n">add_filled_square</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">),</span> <span class="o">*</span><span class="n">square_location</span><span class="p">),</span>
+        <span class="n">add_circle</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">),</span> <span class="o">*</span><span class="n">circle_location2</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="n">add_triangle</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">),</span> <span class="o">*</span><span class="n">triangle_location</span><span class="p">),</span>
+        <span class="n">add_circle</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">),</span> <span class="o">*</span><span class="n">circle_location1</span><span class="p">),</span>
+         <span class="n">add_filled_square</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">),</span> <span class="o">*</span><span class="n">mesh_location</span><span class="p">),</span>
+        <span class="c1"># add_mesh_square(np.zeros(shape, dtype=bool), *mesh_location),</span>
+        <span class="n">add_plus</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">),</span> <span class="o">*</span><span class="n">plus_location</span><span class="p">)</span>
+    <span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">arr</span><span class="p">,</span> <span class="n">masks</span>
+
+<span class="k">def</span> <span class="nf">add_square</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">size</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">arr</span><span class="p">[</span><span class="n">x</span><span class="o">-</span><span class="n">s</span><span class="p">,</span><span class="n">y</span><span class="o">-</span><span class="n">s</span><span class="p">:</span><span class="n">y</span><span class="o">+</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">arr</span><span class="p">[</span><span class="n">x</span><span class="o">+</span><span class="n">s</span><span class="p">,</span><span class="n">y</span><span class="o">-</span><span class="n">s</span><span class="p">:</span><span class="n">y</span><span class="o">+</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">arr</span><span class="p">[</span><span class="n">x</span><span class="o">-</span><span class="n">s</span><span class="p">:</span><span class="n">x</span><span class="o">+</span><span class="n">s</span><span class="p">,</span><span class="n">y</span><span class="o">-</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">arr</span><span class="p">[</span><span class="n">x</span><span class="o">-</span><span class="n">s</span><span class="p">:</span><span class="n">x</span><span class="o">+</span><span class="n">s</span><span class="p">,</span><span class="n">y</span><span class="o">+</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">return</span> <span class="n">arr</span>
+
+<span class="k">def</span> <span class="nf">add_filled_square</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">size</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="n">xx</span><span class="p">,</span> <span class="n">yy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mgrid</span><span class="p">[:</span><span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">:</span><span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_or</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">logical_and</span><span class="p">([</span><span class="n">xx</span> <span class="o">&gt;</span> <span class="n">x</span> <span class="o">-</span> <span class="n">s</span><span class="p">,</span> <span class="n">xx</span> <span class="o">&lt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">s</span><span class="p">,</span> <span class="n">yy</span> <span class="o">&gt;</span> <span class="n">y</span> <span class="o">-</span> <span class="n">s</span><span class="p">,</span> <span class="n">yy</span> <span class="o">&lt;</span> <span class="n">y</span> <span class="o">+</span> <span class="n">s</span><span class="p">]))</span>
+
+<span class="k">def</span> <span class="nf">logical_and</span><span class="p">(</span><span class="n">arrays</span><span class="p">):</span>
+    <span class="n">new_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">arrays</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">arrays</span><span class="p">:</span>
+        <span class="n">new_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">new_array</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">new_array</span>
+
+<span class="k">def</span> <span class="nf">add_mesh_square</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">size</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="n">xx</span><span class="p">,</span> <span class="n">yy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mgrid</span><span class="p">[:</span><span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">:</span><span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_or</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">logical_and</span><span class="p">([</span><span class="n">xx</span> <span class="o">&gt;</span> <span class="n">x</span> <span class="o">-</span> <span class="n">s</span><span class="p">,</span> <span class="n">xx</span> <span class="o">&lt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">s</span><span class="p">,</span> <span class="n">xx</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="n">yy</span> <span class="o">&gt;</span> <span class="n">y</span> <span class="o">-</span> <span class="n">s</span><span class="p">,</span> <span class="n">yy</span> <span class="o">&lt;</span> <span class="n">y</span> <span class="o">+</span> <span class="n">s</span><span class="p">,</span> <span class="n">yy</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]))</span>
+
+<span class="k">def</span> <span class="nf">add_triangle</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">size</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="n">triangle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tril</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">size</span><span class="p">,</span> <span class="n">size</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">))</span>
+
+    <span class="n">arr</span><span class="p">[</span><span class="n">x</span><span class="o">-</span><span class="n">s</span><span class="p">:</span><span class="n">x</span><span class="o">-</span><span class="n">s</span><span class="o">+</span><span class="n">triangle</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">y</span><span class="o">-</span><span class="n">s</span><span class="p">:</span><span class="n">y</span><span class="o">-</span><span class="n">s</span><span class="o">+</span><span class="n">triangle</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">triangle</span>
+
+    <span class="k">return</span> <span class="n">arr</span>
+
+<span class="k">def</span> <span class="nf">add_circle</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="n">xx</span><span class="p">,</span> <span class="n">yy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mgrid</span><span class="p">[:</span><span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">:</span><span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+    <span class="n">circle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">xx</span> <span class="o">-</span> <span class="n">x</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">yy</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">new_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_or</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">circle</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">,</span> <span class="n">circle</span> <span class="o">&gt;=</span> <span class="n">size</span> <span class="o">*</span> <span class="mf">0.7</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">fill</span> <span class="k">else</span> <span class="kc">True</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">new_arr</span>
+
+<span class="k">def</span> <span class="nf">add_plus</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">size</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">arr</span><span class="p">[</span><span class="n">x</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">y</span><span class="o">-</span><span class="n">s</span><span class="p">:</span><span class="n">y</span><span class="o">+</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">arr</span><span class="p">[</span><span class="n">x</span><span class="o">-</span><span class="n">s</span><span class="p">:</span><span class="n">x</span><span class="o">+</span><span class="n">s</span><span class="p">,</span><span class="n">y</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="n">y</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">return</span> <span class="n">arr</span>
+
+<span class="k">def</span> <span class="nf">get_random_location</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">zoom</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">width</span> <span class="o">*</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">))</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">height</span> <span class="o">*</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">))</span>
+
+    <span class="n">size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span> <span class="o">*</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.06</span><span class="p">,</span> <span class="mf">0.12</span><span class="p">)</span> <span class="o">*</span> <span class="n">zoom</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="synthetic-images-for-demo-training">
+<h2>Synthetic images for demo training<a class="headerlink" href="#synthetic-images-for-demo-training" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<span class="c1"># Generate some random images</span>
+<span class="n">input_images</span><span class="p">,</span> <span class="n">target_masks</span> <span class="o">=</span> <span class="n">generate_random_data</span><span class="p">(</span><span class="mi">192</span><span class="p">,</span> <span class="mi">192</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;input_images shape and range&quot;</span><span class="p">,</span> <span class="n">input_images</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">input_images</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">input_images</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;target_masks shape and range&quot;</span><span class="p">,</span> <span class="n">target_masks</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">target_masks</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">target_masks</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+
+<span class="c1"># Change channel-order and make 3 channels for matplot</span>
+<span class="n">input_images_rgb</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">input_images</span><span class="p">]</span>
+
+<span class="c1"># Map each channel (i.e. class) to each color</span>
+<span class="n">target_masks_rgb</span> <span class="o">=</span> <span class="p">[</span><span class="n">masks_to_colorimg</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">target_masks</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>input_images shape and range (3, 192, 192, 3) 0 255
+target_masks shape and range (3, 6, 192, 192) 0.0 1.0
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="left-input-image-black-and-white-right-target-mask-6ch">
+<h2>Left: Input image (black and white), Right: Target mask (6ch)<a class="headerlink" href="#left-input-image-black-and-white-right-target-mask-6ch" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_side_by_side</span><span class="p">([</span><span class="n">input_images_rgb</span><span class="p">,</span> <span class="n">target_masks_rgb</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/Week_7_Lecture_4_13_0.png" src="../../_images/Week_7_Lecture_4_13_0.png" />
+</div>
+</div>
+</section>
+<section id="prepare-dataset-and-dataloader">
+<h2>Prepare Dataset and DataLoader<a class="headerlink" href="#prepare-dataset-and-dataloader" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">Dataset</span><span class="p">,</span> <span class="n">DataLoader</span>
+<span class="kn">from</span> <span class="nn">torchvision</span> <span class="kn">import</span> <span class="n">transforms</span><span class="p">,</span> <span class="n">datasets</span><span class="p">,</span> <span class="n">models</span>
+
+<span class="k">class</span> <span class="nc">SimDataset</span><span class="p">(</span><span class="n">Dataset</span><span class="p">):</span>
+  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">input_images</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_masks</span> <span class="o">=</span> <span class="n">generate_random_data</span><span class="p">(</span><span class="mi">192</span><span class="p">,</span> <span class="mi">192</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="n">count</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">transform</span> <span class="o">=</span> <span class="n">transform</span>
+
+  <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_images</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_images</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_masks</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform</span><span class="p">:</span>
+      <span class="n">image</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">[</span><span class="n">image</span><span class="p">,</span> <span class="n">mask</span><span class="p">]</span>
+
+<span class="c1"># use the same transformations for train/val in this example</span>
+<span class="n">trans</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Compose</span><span class="p">([</span>
+  <span class="n">transforms</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">(),</span>
+  <span class="n">transforms</span><span class="o">.</span><span class="n">Normalize</span><span class="p">([</span><span class="mf">0.485</span><span class="p">,</span> <span class="mf">0.456</span><span class="p">,</span> <span class="mf">0.406</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.229</span><span class="p">,</span> <span class="mf">0.224</span><span class="p">,</span> <span class="mf">0.225</span><span class="p">])</span> <span class="c1"># imagenet</span>
+<span class="p">])</span>
+
+<span class="n">train_set</span> <span class="o">=</span> <span class="n">SimDataset</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="n">transform</span> <span class="o">=</span> <span class="n">trans</span><span class="p">)</span>
+<span class="n">val_set</span> <span class="o">=</span> <span class="n">SimDataset</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="n">transform</span> <span class="o">=</span> <span class="n">trans</span><span class="p">)</span>
+
+<span class="n">image_datasets</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s1">&#39;train&#39;</span><span class="p">:</span> <span class="n">train_set</span><span class="p">,</span> <span class="s1">&#39;val&#39;</span><span class="p">:</span> <span class="n">val_set</span>
+<span class="p">}</span>
+
+<span class="n">batch_size</span> <span class="o">=</span> <span class="mi">25</span>
+
+<span class="n">dataloaders</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s1">&#39;train&#39;</span><span class="p">:</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">train_set</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+  <span class="s1">&#39;val&#39;</span><span class="p">:</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">val_set</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="check-the-outputs-from-dataloader">
+<h2>Check the outputs from DataLoader<a class="headerlink" href="#check-the-outputs-from-dataloader" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torchvision.utils</span>
+
+<span class="k">def</span> <span class="nf">reverse_transform</span><span class="p">(</span><span class="n">inp</span><span class="p">):</span>
+  <span class="n">inp</span> <span class="o">=</span> <span class="n">inp</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="o">.</span><span class="n">transpose</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+  <span class="n">mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.485</span><span class="p">,</span> <span class="mf">0.456</span><span class="p">,</span> <span class="mf">0.406</span><span class="p">])</span>
+  <span class="n">std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.229</span><span class="p">,</span> <span class="mf">0.224</span><span class="p">,</span> <span class="mf">0.225</span><span class="p">])</span>
+  <span class="n">inp</span> <span class="o">=</span> <span class="n">std</span> <span class="o">*</span> <span class="n">inp</span> <span class="o">+</span> <span class="n">mean</span>
+  <span class="n">inp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">inp</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+  <span class="n">inp</span> <span class="o">=</span> <span class="p">(</span><span class="n">inp</span> <span class="o">*</span> <span class="mi">255</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">inp</span>
+
+<span class="c1"># Get a batch of training data</span>
+<span class="n">inputs</span><span class="p">,</span> <span class="n">masks</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">dataloaders</span><span class="p">[</span><span class="s1">&#39;train&#39;</span><span class="p">]))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">inputs</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">masks</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">reverse_transform</span><span class="p">(</span><span class="n">inputs</span><span class="p">[</span><span class="mi">3</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.Size([25, 3, 192, 192]) torch.Size([25, 6, 192, 192])
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.image.AxesImage at 0x7f9bb5b9d110&gt;
+</pre></div>
+</div>
+<img alt="../../_images/Week_7_Lecture_4_17_2.png" src="../../_images/Week_7_Lecture_4_17_2.png" />
+</div>
+</div>
+</section>
+<section id="define-a-unet-module">
+<h2>Define a UNet module<a class="headerlink" href="#define-a-unet-module" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+<span class="kn">import</span> <span class="nn">torchvision.models</span>
+
+
+<span class="k">def</span> <span class="nf">convrelu</span><span class="p">(</span><span class="n">in_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">padding</span><span class="p">):</span>
+  <span class="k">return</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+    <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">in_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="n">padding</span><span class="p">),</span>
+    <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+  <span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">ResNetUNet</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_class</span><span class="p">):</span>
+    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">base_model</span> <span class="o">=</span> <span class="n">torchvision</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">resnet18</span><span class="p">(</span><span class="n">pretrained</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">base_layers</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_model</span><span class="o">.</span><span class="n">children</span><span class="p">())</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">layer0</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">base_layers</span><span class="p">[:</span><span class="mi">3</span><span class="p">])</span> <span class="c1"># size=(N, 64, x.H/2, x.W/2)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">layer0_1x1</span> <span class="o">=</span> <span class="n">convrelu</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">layer1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">base_layers</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="mi">5</span><span class="p">])</span> <span class="c1"># size=(N, 64, x.H/4, x.W/4)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">layer1_1x1</span> <span class="o">=</span> <span class="n">convrelu</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">layer2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_layers</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span>  <span class="c1"># size=(N, 128, x.H/8, x.W/8)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">layer2_1x1</span> <span class="o">=</span> <span class="n">convrelu</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">layer3</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_layers</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span>  <span class="c1"># size=(N, 256, x.H/16, x.W/16)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">layer3_1x1</span> <span class="o">=</span> <span class="n">convrelu</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">layer4</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_layers</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span>  <span class="c1"># size=(N, 512, x.H/32, x.W/32)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">layer4_1x1</span> <span class="o">=</span> <span class="n">convrelu</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">upsample</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Upsample</span><span class="p">(</span><span class="n">scale_factor</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;bilinear&#39;</span><span class="p">,</span> <span class="n">align_corners</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">conv_up3</span> <span class="o">=</span> <span class="n">convrelu</span><span class="p">(</span><span class="mi">256</span> <span class="o">+</span> <span class="mi">512</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">conv_up2</span> <span class="o">=</span> <span class="n">convrelu</span><span class="p">(</span><span class="mi">128</span> <span class="o">+</span> <span class="mi">512</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">conv_up1</span> <span class="o">=</span> <span class="n">convrelu</span><span class="p">(</span><span class="mi">64</span> <span class="o">+</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">conv_up0</span> <span class="o">=</span> <span class="n">convrelu</span><span class="p">(</span><span class="mi">64</span> <span class="o">+</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">conv_original_size0</span> <span class="o">=</span> <span class="n">convrelu</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">conv_original_size1</span> <span class="o">=</span> <span class="n">convrelu</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">conv_original_size2</span> <span class="o">=</span> <span class="n">convrelu</span><span class="p">(</span><span class="mi">64</span> <span class="o">+</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">conv_last</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="n">n_class</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">):</span>
+    <span class="n">x_original</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv_original_size0</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+    <span class="n">x_original</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv_original_size1</span><span class="p">(</span><span class="n">x_original</span><span class="p">)</span>
+
+    <span class="n">layer0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">layer0</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+    <span class="n">layer1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">layer1</span><span class="p">(</span><span class="n">layer0</span><span class="p">)</span>
+    <span class="n">layer2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">layer2</span><span class="p">(</span><span class="n">layer1</span><span class="p">)</span>
+    <span class="n">layer3</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">layer3</span><span class="p">(</span><span class="n">layer2</span><span class="p">)</span>
+    <span class="n">layer4</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">layer4</span><span class="p">(</span><span class="n">layer3</span><span class="p">)</span>
+
+    <span class="n">layer4</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">layer4_1x1</span><span class="p">(</span><span class="n">layer4</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">upsample</span><span class="p">(</span><span class="n">layer4</span><span class="p">)</span>
+    <span class="n">layer3</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">layer3_1x1</span><span class="p">(</span><span class="n">layer3</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">layer3</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv_up3</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">upsample</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">layer2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">layer2_1x1</span><span class="p">(</span><span class="n">layer2</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">layer2</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv_up2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">upsample</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">layer1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">layer1_1x1</span><span class="p">(</span><span class="n">layer1</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">layer1</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv_up1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">upsample</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">layer0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">layer0_1x1</span><span class="p">(</span><span class="n">layer0</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">layer0</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv_up0</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">upsample</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">x_original</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv_original_size2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv_last</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">out</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="instantiate-the-unet-model">
+<h2>Instantiate the UNet model<a class="headerlink" href="#instantiate-the-unet-model" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p>Move the model to GPU if available</p></li>
+<li><p>Show model summaries</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+
+
+<span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s1">&#39;cuda&#39;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s1">&#39;cpu&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;device&#39;</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">ResNetUNet</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>device cuda
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/usr/local/lib/python3.7/dist-packages/torchvision/models/_utils.py:209: UserWarning: The parameter &#39;pretrained&#39; is deprecated since 0.13 and will be removed in 0.15, please use &#39;weights&#39; instead.
+  f&quot;The parameter &#39;{pretrained_param}&#39; is deprecated since 0.13 and will be removed in 0.15, &quot;
+/usr/local/lib/python3.7/dist-packages/torchvision/models/_utils.py:223: UserWarning: Arguments other than a weight enum or `None` for &#39;weights&#39; are deprecated since 0.13 and will be removed in 0.15. The current behavior is equivalent to passing `weights=ResNet18_Weights.IMAGENET1K_V1`. You can also use `weights=ResNet18_Weights.DEFAULT` to get the most up-to-date weights.
+  warnings.warn(msg)
+Downloading: &quot;https://download.pytorch.org/models/resnet18-f37072fd.pth&quot; to /root/.cache/torch/hub/checkpoints/resnet18-f37072fd.pth
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">
+{"version_major": 2, "version_minor": 0, "model_id": "5b13e7ff870444658f3a86d9a24bf907"}
+</script></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ResNetUNet(
+  (base_model): ResNet(
+    (conv1): Conv2d(3, 64, kernel_size=(7, 7), stride=(2, 2), padding=(3, 3), bias=False)
+    (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (relu): ReLU(inplace=True)
+    (maxpool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
+    (layer1): Sequential(
+      (0): BasicBlock(
+        (conv1): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+        (conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (1): BasicBlock(
+        (conv1): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+        (conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (layer2): Sequential(
+      (0): BasicBlock(
+        (conv1): Conv2d(64, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+        (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+        (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (downsample): Sequential(
+          (0): Conv2d(64, 128, kernel_size=(1, 1), stride=(2, 2), bias=False)
+          (1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (1): BasicBlock(
+        (conv1): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+        (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (layer3): Sequential(
+      (0): BasicBlock(
+        (conv1): Conv2d(128, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+        (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+        (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (downsample): Sequential(
+          (0): Conv2d(128, 256, kernel_size=(1, 1), stride=(2, 2), bias=False)
+          (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (1): BasicBlock(
+        (conv1): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+        (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (layer4): Sequential(
+      (0): BasicBlock(
+        (conv1): Conv2d(256, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+        (bn1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+        (conv2): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (downsample): Sequential(
+          (0): Conv2d(256, 512, kernel_size=(1, 1), stride=(2, 2), bias=False)
+          (1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (1): BasicBlock(
+        (conv1): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+        (conv2): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (avgpool): AdaptiveAvgPool2d(output_size=(1, 1))
+    (fc): Linear(in_features=512, out_features=1000, bias=True)
+  )
+  (layer0): Sequential(
+    (0): Conv2d(3, 64, kernel_size=(7, 7), stride=(2, 2), padding=(3, 3), bias=False)
+    (1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU(inplace=True)
+  )
+  (layer0_1x1): Sequential(
+    (0): Conv2d(64, 64, kernel_size=(1, 1), stride=(1, 1))
+    (1): ReLU(inplace=True)
+  )
+  (layer1): Sequential(
+    (0): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
+    (1): Sequential(
+      (0): BasicBlock(
+        (conv1): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+        (conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (1): BasicBlock(
+        (conv1): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+        (conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+  )
+  (layer1_1x1): Sequential(
+    (0): Conv2d(64, 64, kernel_size=(1, 1), stride=(1, 1))
+    (1): ReLU(inplace=True)
+  )
+  (layer2): Sequential(
+    (0): BasicBlock(
+      (conv1): Conv2d(64, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (downsample): Sequential(
+        (0): Conv2d(64, 128, kernel_size=(1, 1), stride=(2, 2), bias=False)
+        (1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (1): BasicBlock(
+      (conv1): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+  )
+  (layer2_1x1): Sequential(
+    (0): Conv2d(128, 128, kernel_size=(1, 1), stride=(1, 1))
+    (1): ReLU(inplace=True)
+  )
+  (layer3): Sequential(
+    (0): BasicBlock(
+      (conv1): Conv2d(128, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (downsample): Sequential(
+        (0): Conv2d(128, 256, kernel_size=(1, 1), stride=(2, 2), bias=False)
+        (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (1): BasicBlock(
+      (conv1): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+  )
+  (layer3_1x1): Sequential(
+    (0): Conv2d(256, 256, kernel_size=(1, 1), stride=(1, 1))
+    (1): ReLU(inplace=True)
+  )
+  (layer4): Sequential(
+    (0): BasicBlock(
+      (conv1): Conv2d(256, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv2): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (downsample): Sequential(
+        (0): Conv2d(256, 512, kernel_size=(1, 1), stride=(2, 2), bias=False)
+        (1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (1): BasicBlock(
+      (conv1): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv2): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+  )
+  (layer4_1x1): Sequential(
+    (0): Conv2d(512, 512, kernel_size=(1, 1), stride=(1, 1))
+    (1): ReLU(inplace=True)
+  )
+  (upsample): Upsample(scale_factor=2.0, mode=bilinear)
+  (conv_up3): Sequential(
+    (0): Conv2d(768, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (1): ReLU(inplace=True)
+  )
+  (conv_up2): Sequential(
+    (0): Conv2d(640, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (1): ReLU(inplace=True)
+  )
+  (conv_up1): Sequential(
+    (0): Conv2d(320, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (1): ReLU(inplace=True)
+  )
+  (conv_up0): Sequential(
+    (0): Conv2d(320, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (1): ReLU(inplace=True)
+  )
+  (conv_original_size0): Sequential(
+    (0): Conv2d(3, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (1): ReLU(inplace=True)
+  )
+  (conv_original_size1): Sequential(
+    (0): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (1): ReLU(inplace=True)
+  )
+  (conv_original_size2): Sequential(
+    (0): Conv2d(192, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (1): ReLU(inplace=True)
+  )
+  (conv_last): Conv2d(64, 6, kernel_size=(1, 1), stride=(1, 1))
+)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">torchsummary</span> <span class="kn">import</span> <span class="n">summary</span>
+<span class="n">summary</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">input_size</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>----------------------------------------------------------------
+        Layer (type)               Output Shape         Param #
+================================================================
+            Conv2d-1         [-1, 64, 224, 224]           1,792
+              ReLU-2         [-1, 64, 224, 224]               0
+            Conv2d-3         [-1, 64, 224, 224]          36,928
+              ReLU-4         [-1, 64, 224, 224]               0
+            Conv2d-5         [-1, 64, 112, 112]           9,408
+            Conv2d-6         [-1, 64, 112, 112]           9,408
+       BatchNorm2d-7         [-1, 64, 112, 112]             128
+       BatchNorm2d-8         [-1, 64, 112, 112]             128
+              ReLU-9         [-1, 64, 112, 112]               0
+             ReLU-10         [-1, 64, 112, 112]               0
+        MaxPool2d-11           [-1, 64, 56, 56]               0
+        MaxPool2d-12           [-1, 64, 56, 56]               0
+           Conv2d-13           [-1, 64, 56, 56]          36,864
+           Conv2d-14           [-1, 64, 56, 56]          36,864
+      BatchNorm2d-15           [-1, 64, 56, 56]             128
+      BatchNorm2d-16           [-1, 64, 56, 56]             128
+             ReLU-17           [-1, 64, 56, 56]               0
+             ReLU-18           [-1, 64, 56, 56]               0
+           Conv2d-19           [-1, 64, 56, 56]          36,864
+           Conv2d-20           [-1, 64, 56, 56]          36,864
+      BatchNorm2d-21           [-1, 64, 56, 56]             128
+      BatchNorm2d-22           [-1, 64, 56, 56]             128
+             ReLU-23           [-1, 64, 56, 56]               0
+             ReLU-24           [-1, 64, 56, 56]               0
+       BasicBlock-25           [-1, 64, 56, 56]               0
+       BasicBlock-26           [-1, 64, 56, 56]               0
+           Conv2d-27           [-1, 64, 56, 56]          36,864
+           Conv2d-28           [-1, 64, 56, 56]          36,864
+      BatchNorm2d-29           [-1, 64, 56, 56]             128
+      BatchNorm2d-30           [-1, 64, 56, 56]             128
+             ReLU-31           [-1, 64, 56, 56]               0
+             ReLU-32           [-1, 64, 56, 56]               0
+           Conv2d-33           [-1, 64, 56, 56]          36,864
+           Conv2d-34           [-1, 64, 56, 56]          36,864
+      BatchNorm2d-35           [-1, 64, 56, 56]             128
+      BatchNorm2d-36           [-1, 64, 56, 56]             128
+             ReLU-37           [-1, 64, 56, 56]               0
+             ReLU-38           [-1, 64, 56, 56]               0
+       BasicBlock-39           [-1, 64, 56, 56]               0
+       BasicBlock-40           [-1, 64, 56, 56]               0
+           Conv2d-41          [-1, 128, 28, 28]          73,728
+           Conv2d-42          [-1, 128, 28, 28]          73,728
+      BatchNorm2d-43          [-1, 128, 28, 28]             256
+      BatchNorm2d-44          [-1, 128, 28, 28]             256
+             ReLU-45          [-1, 128, 28, 28]               0
+             ReLU-46          [-1, 128, 28, 28]               0
+           Conv2d-47          [-1, 128, 28, 28]         147,456
+           Conv2d-48          [-1, 128, 28, 28]         147,456
+      BatchNorm2d-49          [-1, 128, 28, 28]             256
+      BatchNorm2d-50          [-1, 128, 28, 28]             256
+           Conv2d-51          [-1, 128, 28, 28]           8,192
+           Conv2d-52          [-1, 128, 28, 28]           8,192
+      BatchNorm2d-53          [-1, 128, 28, 28]             256
+      BatchNorm2d-54          [-1, 128, 28, 28]             256
+             ReLU-55          [-1, 128, 28, 28]               0
+             ReLU-56          [-1, 128, 28, 28]               0
+       BasicBlock-57          [-1, 128, 28, 28]               0
+       BasicBlock-58          [-1, 128, 28, 28]               0
+           Conv2d-59          [-1, 128, 28, 28]         147,456
+           Conv2d-60          [-1, 128, 28, 28]         147,456
+      BatchNorm2d-61          [-1, 128, 28, 28]             256
+      BatchNorm2d-62          [-1, 128, 28, 28]             256
+             ReLU-63          [-1, 128, 28, 28]               0
+             ReLU-64          [-1, 128, 28, 28]               0
+           Conv2d-65          [-1, 128, 28, 28]         147,456
+           Conv2d-66          [-1, 128, 28, 28]         147,456
+      BatchNorm2d-67          [-1, 128, 28, 28]             256
+      BatchNorm2d-68          [-1, 128, 28, 28]             256
+             ReLU-69          [-1, 128, 28, 28]               0
+             ReLU-70          [-1, 128, 28, 28]               0
+       BasicBlock-71          [-1, 128, 28, 28]               0
+       BasicBlock-72          [-1, 128, 28, 28]               0
+           Conv2d-73          [-1, 256, 14, 14]         294,912
+           Conv2d-74          [-1, 256, 14, 14]         294,912
+      BatchNorm2d-75          [-1, 256, 14, 14]             512
+      BatchNorm2d-76          [-1, 256, 14, 14]             512
+             ReLU-77          [-1, 256, 14, 14]               0
+             ReLU-78          [-1, 256, 14, 14]               0
+           Conv2d-79          [-1, 256, 14, 14]         589,824
+           Conv2d-80          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-81          [-1, 256, 14, 14]             512
+      BatchNorm2d-82          [-1, 256, 14, 14]             512
+           Conv2d-83          [-1, 256, 14, 14]          32,768
+           Conv2d-84          [-1, 256, 14, 14]          32,768
+      BatchNorm2d-85          [-1, 256, 14, 14]             512
+      BatchNorm2d-86          [-1, 256, 14, 14]             512
+             ReLU-87          [-1, 256, 14, 14]               0
+             ReLU-88          [-1, 256, 14, 14]               0
+       BasicBlock-89          [-1, 256, 14, 14]               0
+       BasicBlock-90          [-1, 256, 14, 14]               0
+           Conv2d-91          [-1, 256, 14, 14]         589,824
+           Conv2d-92          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-93          [-1, 256, 14, 14]             512
+      BatchNorm2d-94          [-1, 256, 14, 14]             512
+             ReLU-95          [-1, 256, 14, 14]               0
+             ReLU-96          [-1, 256, 14, 14]               0
+           Conv2d-97          [-1, 256, 14, 14]         589,824
+           Conv2d-98          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-99          [-1, 256, 14, 14]             512
+     BatchNorm2d-100          [-1, 256, 14, 14]             512
+            ReLU-101          [-1, 256, 14, 14]               0
+            ReLU-102          [-1, 256, 14, 14]               0
+      BasicBlock-103          [-1, 256, 14, 14]               0
+      BasicBlock-104          [-1, 256, 14, 14]               0
+          Conv2d-105            [-1, 512, 7, 7]       1,179,648
+          Conv2d-106            [-1, 512, 7, 7]       1,179,648
+     BatchNorm2d-107            [-1, 512, 7, 7]           1,024
+     BatchNorm2d-108            [-1, 512, 7, 7]           1,024
+            ReLU-109            [-1, 512, 7, 7]               0
+            ReLU-110            [-1, 512, 7, 7]               0
+          Conv2d-111            [-1, 512, 7, 7]       2,359,296
+          Conv2d-112            [-1, 512, 7, 7]       2,359,296
+     BatchNorm2d-113            [-1, 512, 7, 7]           1,024
+     BatchNorm2d-114            [-1, 512, 7, 7]           1,024
+          Conv2d-115            [-1, 512, 7, 7]         131,072
+          Conv2d-116            [-1, 512, 7, 7]         131,072
+     BatchNorm2d-117            [-1, 512, 7, 7]           1,024
+     BatchNorm2d-118            [-1, 512, 7, 7]           1,024
+            ReLU-119            [-1, 512, 7, 7]               0
+            ReLU-120            [-1, 512, 7, 7]               0
+      BasicBlock-121            [-1, 512, 7, 7]               0
+      BasicBlock-122            [-1, 512, 7, 7]               0
+          Conv2d-123            [-1, 512, 7, 7]       2,359,296
+          Conv2d-124            [-1, 512, 7, 7]       2,359,296
+     BatchNorm2d-125            [-1, 512, 7, 7]           1,024
+     BatchNorm2d-126            [-1, 512, 7, 7]           1,024
+            ReLU-127            [-1, 512, 7, 7]               0
+            ReLU-128            [-1, 512, 7, 7]               0
+          Conv2d-129            [-1, 512, 7, 7]       2,359,296
+          Conv2d-130            [-1, 512, 7, 7]       2,359,296
+     BatchNorm2d-131            [-1, 512, 7, 7]           1,024
+     BatchNorm2d-132            [-1, 512, 7, 7]           1,024
+            ReLU-133            [-1, 512, 7, 7]               0
+            ReLU-134            [-1, 512, 7, 7]               0
+      BasicBlock-135            [-1, 512, 7, 7]               0
+      BasicBlock-136            [-1, 512, 7, 7]               0
+          Conv2d-137            [-1, 512, 7, 7]         262,656
+            ReLU-138            [-1, 512, 7, 7]               0
+        Upsample-139          [-1, 512, 14, 14]               0
+          Conv2d-140          [-1, 256, 14, 14]          65,792
+            ReLU-141          [-1, 256, 14, 14]               0
+          Conv2d-142          [-1, 512, 14, 14]       3,539,456
+            ReLU-143          [-1, 512, 14, 14]               0
+        Upsample-144          [-1, 512, 28, 28]               0
+          Conv2d-145          [-1, 128, 28, 28]          16,512
+            ReLU-146          [-1, 128, 28, 28]               0
+          Conv2d-147          [-1, 256, 28, 28]       1,474,816
+            ReLU-148          [-1, 256, 28, 28]               0
+        Upsample-149          [-1, 256, 56, 56]               0
+          Conv2d-150           [-1, 64, 56, 56]           4,160
+            ReLU-151           [-1, 64, 56, 56]               0
+          Conv2d-152          [-1, 256, 56, 56]         737,536
+            ReLU-153          [-1, 256, 56, 56]               0
+        Upsample-154        [-1, 256, 112, 112]               0
+          Conv2d-155         [-1, 64, 112, 112]           4,160
+            ReLU-156         [-1, 64, 112, 112]               0
+          Conv2d-157        [-1, 128, 112, 112]         368,768
+            ReLU-158        [-1, 128, 112, 112]               0
+        Upsample-159        [-1, 128, 224, 224]               0
+          Conv2d-160         [-1, 64, 224, 224]         110,656
+            ReLU-161         [-1, 64, 224, 224]               0
+          Conv2d-162          [-1, 6, 224, 224]             390
+================================================================
+Total params: 28,976,646
+Trainable params: 28,976,646
+Non-trainable params: 0
+----------------------------------------------------------------
+Input size (MB): 0.57
+Forward/backward pass size (MB): 417.65
+Params size (MB): 110.54
+Estimated Total Size (MB): 528.76
+----------------------------------------------------------------
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="loss">
+<h2>Loss<a class="headerlink" href="#loss" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">dice_loss</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">smooth</span> <span class="o">=</span> <span class="mf">1.</span><span class="p">):</span>
+    <span class="n">pred</span> <span class="o">=</span> <span class="n">pred</span><span class="o">.</span><span class="n">contiguous</span><span class="p">()</span>
+    <span class="n">target</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">contiguous</span><span class="p">()</span>    
+
+    <span class="n">intersection</span> <span class="o">=</span> <span class="p">(</span><span class="n">pred</span> <span class="o">*</span> <span class="n">target</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    
+    <span class="n">loss</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="p">((</span><span class="mf">2.</span> <span class="o">*</span> <span class="n">intersection</span> <span class="o">+</span> <span class="n">smooth</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">pred</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">target</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">smooth</span><span class="p">)))</span>
+    
+    <span class="k">return</span> <span class="n">loss</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="define-the-main-training-loop">
+<h2>Define the main training loop<a class="headerlink" href="#define-the-main-training-loop" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
+
+
+<span class="n">checkpoint_path</span> <span class="o">=</span> <span class="s2">&quot;checkpoint.pth&quot;</span>
+
+<span class="k">def</span> <span class="nf">calc_loss</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">metrics</span><span class="p">,</span> <span class="n">bce_weight</span><span class="o">=</span><span class="mf">0.5</span><span class="p">):</span>
+    <span class="n">bce</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">binary_cross_entropy_with_logits</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+
+    <span class="n">pred</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">pred</span><span class="p">)</span>
+    <span class="n">dice</span> <span class="o">=</span> <span class="n">dice_loss</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">bce</span> <span class="o">*</span> <span class="n">bce_weight</span> <span class="o">+</span> <span class="n">dice</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">bce_weight</span><span class="p">)</span>
+
+    <span class="n">metrics</span><span class="p">[</span><span class="s1">&#39;bce&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">bce</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span> <span class="o">*</span> <span class="n">target</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">metrics</span><span class="p">[</span><span class="s1">&#39;dice&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">dice</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span> <span class="o">*</span> <span class="n">target</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">metrics</span><span class="p">[</span><span class="s1">&#39;loss&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">loss</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span> <span class="o">*</span> <span class="n">target</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">loss</span>
+
+<span class="k">def</span> <span class="nf">print_metrics</span><span class="p">(</span><span class="n">metrics</span><span class="p">,</span> <span class="n">epoch_samples</span><span class="p">,</span> <span class="n">phase</span><span class="p">):</span>
+    <span class="n">outputs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">metrics</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">: </span><span class="si">{:4f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">metrics</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">/</span> <span class="n">epoch_samples</span><span class="p">))</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">phase</span><span class="p">,</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">outputs</span><span class="p">)))</span>
+
+<span class="k">def</span> <span class="nf">train_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">scheduler</span><span class="p">,</span> <span class="n">num_epochs</span><span class="o">=</span><span class="mi">25</span><span class="p">):</span>
+    <span class="n">best_loss</span> <span class="o">=</span> <span class="mf">1e10</span>
+
+    <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_epochs</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Epoch </span><span class="si">{}</span><span class="s1">/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">epoch</span><span class="p">,</span> <span class="n">num_epochs</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-&#39;</span> <span class="o">*</span> <span class="mi">10</span><span class="p">)</span>
+
+        <span class="n">since</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+        <span class="c1"># Each epoch has a training and validation phase</span>
+        <span class="k">for</span> <span class="n">phase</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;train&#39;</span><span class="p">,</span> <span class="s1">&#39;val&#39;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">phase</span> <span class="o">==</span> <span class="s1">&#39;train&#39;</span><span class="p">:</span>
+                <span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>  <span class="c1"># Set model to training mode</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>   <span class="c1"># Set model to evaluate mode</span>
+
+            <span class="n">metrics</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+            <span class="n">epoch_samples</span> <span class="o">=</span> <span class="mi">0</span>
+
+            <span class="k">for</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">labels</span> <span class="ow">in</span> <span class="n">dataloaders</span><span class="p">[</span><span class="n">phase</span><span class="p">]:</span>
+                <span class="n">inputs</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+                <span class="n">labels</span> <span class="o">=</span> <span class="n">labels</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+                <span class="c1"># zero the parameter gradients</span>
+                <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+
+                <span class="c1"># forward</span>
+                <span class="c1"># track history if only in train</span>
+                <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">set_grad_enabled</span><span class="p">(</span><span class="n">phase</span> <span class="o">==</span> <span class="s1">&#39;train&#39;</span><span class="p">):</span>
+                    <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+                    <span class="n">loss</span> <span class="o">=</span> <span class="n">calc_loss</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">metrics</span><span class="p">)</span>
+
+                    <span class="c1"># backward + optimize only if in training phase</span>
+                    <span class="k">if</span> <span class="n">phase</span> <span class="o">==</span> <span class="s1">&#39;train&#39;</span><span class="p">:</span>
+                        <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+                        <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+
+                <span class="c1"># statistics</span>
+                <span class="n">epoch_samples</span> <span class="o">+=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+            <span class="n">print_metrics</span><span class="p">(</span><span class="n">metrics</span><span class="p">,</span> <span class="n">epoch_samples</span><span class="p">,</span> <span class="n">phase</span><span class="p">)</span>
+            <span class="n">epoch_loss</span> <span class="o">=</span> <span class="n">metrics</span><span class="p">[</span><span class="s1">&#39;loss&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">epoch_samples</span>
+
+            <span class="k">if</span> <span class="n">phase</span> <span class="o">==</span> <span class="s1">&#39;train&#39;</span><span class="p">:</span>
+              <span class="n">scheduler</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+              <span class="k">for</span> <span class="n">param_group</span> <span class="ow">in</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">param_groups</span><span class="p">:</span>
+                  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;LR&quot;</span><span class="p">,</span> <span class="n">param_group</span><span class="p">[</span><span class="s1">&#39;lr&#39;</span><span class="p">])</span>
+
+            <span class="c1"># save the model weights</span>
+            <span class="k">if</span> <span class="n">phase</span> <span class="o">==</span> <span class="s1">&#39;val&#39;</span> <span class="ow">and</span> <span class="n">epoch_loss</span> <span class="o">&lt;</span> <span class="n">best_loss</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;saving best model to </span><span class="si">{</span><span class="n">checkpoint_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">best_loss</span> <span class="o">=</span> <span class="n">epoch_loss</span>
+                <span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">state_dict</span><span class="p">(),</span> <span class="n">checkpoint_path</span><span class="p">)</span>
+
+        <span class="n">time_elapsed</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">since</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{:.0f}</span><span class="s1">m </span><span class="si">{:.0f}</span><span class="s1">s&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">time_elapsed</span> <span class="o">//</span> <span class="mi">60</span><span class="p">,</span> <span class="n">time_elapsed</span> <span class="o">%</span> <span class="mi">60</span><span class="p">))</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Best val loss: </span><span class="si">{:4f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">best_loss</span><span class="p">))</span>
+
+    <span class="c1"># load best model weights</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">checkpoint_path</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">model</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="training">
+<h2>Training<a class="headerlink" href="#training" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.optim</span> <span class="k">as</span> <span class="nn">optim</span>
+<span class="kn">from</span> <span class="nn">torch.optim</span> <span class="kn">import</span> <span class="n">lr_scheduler</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="n">num_class</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">ResNetUNet</span><span class="p">(</span><span class="n">num_class</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+<span class="c1"># freeze backbone layers</span>
+<span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">base_layers</span><span class="p">:</span>
+  <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">l</span><span class="o">.</span><span class="n">parameters</span><span class="p">():</span>
+    <span class="n">param</span><span class="o">.</span><span class="n">requires_grad</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="n">optimizer_ft</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">requires_grad</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">()),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span>
+
+<span class="n">exp_lr_scheduler</span> <span class="o">=</span> <span class="n">lr_scheduler</span><span class="o">.</span><span class="n">StepLR</span><span class="p">(</span><span class="n">optimizer_ft</span><span class="p">,</span> <span class="n">step_size</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">train_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">optimizer_ft</span><span class="p">,</span> <span class="n">exp_lr_scheduler</span><span class="p">,</span> <span class="n">num_epochs</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0/4
+----------
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>train: bce: 0.117824, dice: 0.979445, loss: 0.548634
+LR 0.0001
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>val: bce: 0.021292, dice: 0.832057, loss: 0.426675
+saving best model to checkpoint.pth
+0m 42s
+Epoch 1/4
+----------
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>train: bce: 0.016079, dice: 0.591122, loss: 0.303600
+LR 0.0001
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>val: bce: 0.010939, dice: 0.376841, loss: 0.193890
+saving best model to checkpoint.pth
+0m 41s
+Epoch 2/4
+----------
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>train: bce: 0.005706, dice: 0.222783, loss: 0.114244
+LR 0.0001
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>val: bce: 0.003551, dice: 0.130898, loss: 0.067225
+saving best model to checkpoint.pth
+0m 42s
+Epoch 3/4
+----------
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>train: bce: 0.003004, dice: 0.097710, loss: 0.050357
+LR 0.0001
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>val: bce: 0.003151, dice: 0.098686, loss: 0.050919
+saving best model to checkpoint.pth
+0m 42s
+Epoch 4/4
+----------
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>train: bce: 0.002481, dice: 0.071994, loss: 0.037237
+LR 0.0001
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>val: bce: 0.002755, dice: 0.078187, loss: 0.040471
+saving best model to checkpoint.pth
+0m 42s
+Best val loss: 0.040471
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="predict-new-images-using-the-trained-model">
+<h2>Predict new images using the trained model<a class="headerlink" href="#predict-new-images-using-the-trained-model" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>   <span class="c1"># Set model to the evaluation mode</span>
+
+<span class="c1"># Create a new simulation dataset for testing</span>
+<span class="n">test_dataset</span> <span class="o">=</span> <span class="n">SimDataset</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">transform</span> <span class="o">=</span> <span class="n">trans</span><span class="p">)</span>
+<span class="n">test_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">test_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Get the first batch</span>
+<span class="n">inputs</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">test_loader</span><span class="p">))</span>
+<span class="n">inputs</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="n">labels</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;inputs.shape&#39;</span><span class="p">,</span> <span class="n">inputs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;labels.shape&#39;</span><span class="p">,</span> <span class="n">labels</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="c1"># Predict</span>
+<span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+<span class="c1"># The loss functions include the sigmoid function.</span>
+<span class="n">pred</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">pred</span><span class="p">)</span>
+<span class="n">pred</span> <span class="o">=</span> <span class="n">pred</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;pred.shape&#39;</span><span class="p">,</span> <span class="n">pred</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="c1"># Change channel-order and make 3 channels for matplot</span>
+<span class="n">input_images_rgb</span> <span class="o">=</span> <span class="p">[</span><span class="n">reverse_transform</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">inputs</span><span class="o">.</span><span class="n">cpu</span><span class="p">()]</span>
+
+<span class="c1"># Map each channel (i.e. class) to each color</span>
+<span class="n">target_masks_rgb</span> <span class="o">=</span> <span class="p">[</span><span class="n">masks_to_colorimg</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">labels</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()]</span>
+<span class="n">pred_rgb</span> <span class="o">=</span> <span class="p">[</span><span class="n">masks_to_colorimg</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">pred</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>inputs.shape torch.Size([3, 3, 192, 192])
+labels.shape torch.Size([3, 6, 192, 192])
+pred.shape (3, 6, 192, 192)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="left-input-image-middle-correct-mask-ground-truth-rigth-predicted-mask">
+<h2>Left: Input image, Middle: Correct mask (Ground-truth), Rigth: Predicted mask<a class="headerlink" href="#left-input-image-middle-correct-mask-ground-truth-rigth-predicted-mask" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_side_by_side</span><span class="p">([</span><span class="n">input_images_rgb</span><span class="p">,</span> <span class="n">target_masks_rgb</span><span class="p">,</span> <span class="n">pred_rgb</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/Week_7_Lecture_4_33_0.png" src="../../_images/Week_7_Lecture_4_33_0.png" />
+</div>
+</div>
+</section>
+<section id="next-steps">
+<h2>Next steps<a class="headerlink" href="#next-steps" title="Permalink to this headline">#</a></h2>
+<p>Try tweaking the hyper-parameters for better accuracy e.g.</p>
+<ul class="simple">
+<li><p>learning rates and schedules</p></li>
+<li><p>loss weights</p></li>
+<li><p>unfreezing layers</p></li>
+<li><p>batch size</p></li>
+<li><p>etc.</p></li>
+</ul>
+<p><strong>Acknowledgements</strong></p>
+<p><a class="reference external" href="https://github.com/usuyama/pytorch-unet">https://github.com/usuyama/pytorch-unet</a></p>
+</section>
 </section>
 
 
 <script type="application/vnd.jupyter.widget-state+json">
-{"state": {"c25582a726614947b8b6ce5460899ca2": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "6ab3d42b2373459bbbc72fd5547ed591": {"model_name": "OutputModel", "model_module": "@jupyter-widgets/output", "model_module_version": "1.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/output", "_model_module_version": "1.0.0", "_model_name": "OutputModel", "_view_count": null, "_view_module": "@jupyter-widgets/output", "_view_module_version": "1.0.0", "_view_name": "OutputView", "layout": "IPY_MODEL_c25582a726614947b8b6ce5460899ca2", "msg_id": "", "outputs": [{"output_type": "stream", "name": "stdout", "text": "Video available at https://youtube.com/watch?v=4zuAYazbCQ0\n"}, {"output_type": "display_data", "metadata": {}, "data": {"text/plain": "<IPython.lib.display.YouTubeVideo at 0x7f1ca8b167d0>", "text/html": "\n        <iframe\n            width=\"854\"\n            height=\"480\"\n            src=\"https://www.youtube.com/embed/4zuAYazbCQ0?fs=1&rel=0\"\n            frameborder=\"0\"\n            allowfullscreen\n        ></iframe>\n        ", "image/jpeg": "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REQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQfNsI3M8chcrqqP3nDncfKxXlaP2irMBAbTvzB/msO+0NYmctP6H+a6dO1a1cOrS17b4elp71RgGjQT/ALrLmg1HAiQ69/ovNUvtFWZoyn8w7+aw77Q1iZy05+B/munuVY9qy+aBReQBmBEBs7wM8PCCtP2TM/pCA3MYA14f7LzuI2tUqPa8hoLTIgH+anH2irQ0Zae7pY/zWfXVZ6d3pm0Q0iB4LnNUBro4OP01VH/xHW92n9D/ADXP7Xqcmazoec81fcqz7N1hiBlcRw4L3P2BP/KP/wA0/wClq+Z1tpvfEhojkD/NWmx/tjicHTNOkyi5pdm32uJmAODhyXz5zw+yJn089319F8v6x8b3WH8r/WnWPje6w/lf61UfUEXy/rHxvdYfyv8AWnWPje6w/lf60H1BF8v6x8b3WH8r/WnWPje6w/lf60H1BF8v6x8b3WH8r/WnWPje6w/lf60H1BF8v6x8b3WH8r/WnWPje6w/lf60H1BF8v6x8b3WH8r/AFp1j43usP5X+tB9QRfL+sfG91h/K/1p1j43usP5X+tB9QRfL+sfG91h/K/1p1j43usP5X+tB9QRfL+sfG91h/K/1p1j43usP5X+tB9QRfL+sfG91h/K/wBadY+N7rD+V/rQfUEXy/rHxvdYfyv9adY+N7rD+V/rQfUEXy/rHxvdYfyv9adY+N7rD+V/rQfUEXy/rHxvdYfyv9adY+N7rD+V/rQfUEXy/rHxvdYfyv8AWnWPje6w/lf60H1BF8v6x8b3WH8r/WnWPje6w/lf60H1BF8v6x8b3WH8r/WnWPje6w/lf60H1BF8v6x8b3WH8r/WnWPje6w/lf60H1BF8v6x8b3WH8r/AFp1j43usP5X+tB9QRfL+sfG91h/K/1p1j43usP5X+tB9QRfL+sfG91h/K/1p1j43usP5X+tB9QRfL+sfG91h/K/1p1j43usP5X+tB9QRfL+sfG91h/K/wBadY+N7rD+V/rQfUEXy/rHxvdYfyv9adY+N7rD+V/rQfUEXy/rHxvdYfyv9adY+N7rD+V/rQfUEXy/rHxvdYfyv9adY+N7rD+V/rQePREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERB//Z\n"}}]}}}, "version_major": 2, "version_minor": 0}
+{"state": {"6309d3e3699b45cb99bc7acda2093e93": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "449ee3899c084946a859e668b9233994": {"model_name": "OutputModel", "model_module": "@jupyter-widgets/output", "model_module_version": "1.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/output", "_model_module_version": "1.0.0", "_model_name": "OutputModel", "_view_count": null, "_view_module": "@jupyter-widgets/output", "_view_module_version": "1.0.0", "_view_name": "OutputView", "layout": "IPY_MODEL_6309d3e3699b45cb99bc7acda2093e93", "msg_id": "", "outputs": [{"output_type": "stream", "name": "stdout", "text": "Video available at https://youtube.com/watch?v=4zuAYazbCQ0\n"}, {"output_type": "display_data", "metadata": {}, "data": {"text/plain": "<IPython.lib.display.YouTubeVideo at 0x7f9c2f4f6d50>", "text/html": "\n        <iframe\n            width=\"854\"\n            height=\"480\"\n            src=\"https://www.youtube.com/embed/4zuAYazbCQ0?fs=1&rel=0\"\n            frameborder=\"0\"\n            allowfullscreen\n        ></iframe>\n        ", "image/jpeg": "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REQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQfNsI3M8chcrqqP3nDncfKxXlaP2irMBAbTvzB/msO+0NYmctP6H+a6dO1a1cOrS17b4elp71RgGjQT/ALrLmg1HAiQ69/ovNUvtFWZoyn8w7+aw77Q1iZy05+B/munuVY9qy+aBReQBmBEBs7wM8PCCtP2TM/pCA3MYA14f7LzuI2tUqPa8hoLTIgH+anH2irQ0Zae7pY/zWfXVZ6d3pm0Q0iB4LnNUBro4OP01VH/xHW92n9D/ADXP7Xqcmazoec81fcqz7N1hiBlcRw4L3P2BP/KP/wA0/wClq+Z1tpvfEhojkD/NWmx/tjicHTNOkyi5pdm32uJmAODhyXz5zw+yJn089319F8v6x8b3WH8r/WnWPje6w/lf61UfUEXy/rHxvdYfyv8AWnWPje6w/lf60H1BF8v6x8b3WH8r/WnWPje6w/lf60H1BF8v6x8b3WH8r/WnWPje6w/lf60H1BF8v6x8b3WH8r/WnWPje6w/lf60H1BF8v6x8b3WH8r/AFp1j43usP5X+tB9QRfL+sfG91h/K/1p1j43usP5X+tB9QRfL+sfG91h/K/1p1j43usP5X+tB9QRfL+sfG91h/K/1p1j43usP5X+tB9QRfL+sfG91h/K/wBadY+N7rD+V/rQfUEXy/rHxvdYfyv9adY+N7rD+V/rQfUEXy/rHxvdYfyv9adY+N7rD+V/rQfUEXy/rHxvdYfyv9adY+N7rD+V/rQfUEXy/rHxvdYfyv8AWnWPje6w/lf60H1BF8v6x8b3WH8r/WnWPje6w/lf60H1BF8v6x8b3WH8r/WnWPje6w/lf60H1BF8v6x8b3WH8r/WnWPje6w/lf60H1BF8v6x8b3WH8r/AFp1j43usP5X+tB9QRfL+sfG91h/K/1p1j43usP5X+tB9QRfL+sfG91h/K/1p1j43usP5X+tB9QRfL+sfG91h/K/1p1j43usP5X+tB9QRfL+sfG91h/K/wBadY+N7rD+V/rQfUEXy/rHxvdYfyv9adY+N7rD+V/rQfUEXy/rHxvdYfyv9adY+N7rD+V/rQfUEXy/rHxvdYfyv9adY+N7rD+V/rQePREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERB//Z\n"}}]}}, "1b3e03a5104e4c0ead40035c4f75a854": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "d053802a92a54ce89a4716044f7419d0": {"model_name": "ProgressStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "ProgressStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "bar_color": null, "description_width": ""}}, "54ba81b13da944228399af26ab84f5a8": {"model_name": "FloatProgressModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "FloatProgressModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "ProgressView", "bar_style": "success", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_1b3e03a5104e4c0ead40035c4f75a854", "max": 46830571.0, "min": 0.0, "orientation": "horizontal", "style": "IPY_MODEL_d053802a92a54ce89a4716044f7419d0", "value": 46830571.0}}, "53e4c9d8a299424995084c7b1a456507": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "ff22797b85e548a3918779083676b7ea": {"model_name": "DescriptionStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "DescriptionStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "description_width": ""}}, "c94930b11c5342e48040c7adb72885d6": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HTMLView", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_53e4c9d8a299424995084c7b1a456507", "placeholder": "\u200b", "style": "IPY_MODEL_ff22797b85e548a3918779083676b7ea", "value": "100%"}}, "be8aae87461a47c2818e52f19b505a1b": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "da7c77327d2f4fd68c7149fec438c1d7": {"model_name": "DescriptionStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "DescriptionStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "description_width": ""}}, "a0aea0246007476a99ae3634f343de37": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HTMLView", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_be8aae87461a47c2818e52f19b505a1b", "placeholder": "\u200b", "style": "IPY_MODEL_da7c77327d2f4fd68c7149fec438c1d7", "value": " 44.7M/44.7M [00:00&lt;00:00, 198MB/s]"}}, "d59783f4243d4e54922b12d1be5fae37": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "5b13e7ff870444658f3a86d9a24bf907": {"model_name": "HBoxModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HBoxModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HBoxView", "box_style": "", "children": ["IPY_MODEL_c94930b11c5342e48040c7adb72885d6", "IPY_MODEL_54ba81b13da944228399af26ab84f5a8", "IPY_MODEL_a0aea0246007476a99ae3634f343de37"], "layout": "IPY_MODEL_d59783f4243d4e54922b12d1be5fae37"}}}, "version_major": 2, "version_minor": 0}
 </script>
 
 
