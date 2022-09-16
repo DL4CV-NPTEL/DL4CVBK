@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Lecture 1: Recurrent Neural Networks: Introduction &#8212; Deep Learning For Computer Vision</title>
+    <title>Lecture 1: Recurrent Neural Networks: Introduction Code &#8212; Deep Learning For Computer Vision</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -573,6 +573,11 @@ const thebe_selector_output = ".output, .cell_output"
    <li class="toctree-l2 current active">
     <a class="current reference internal" href="#">
      Lecture 1: Recurrent Neural Networks: Introduction
+     <sup>
+      <mark style="background-color:gold">
+       Code
+      </mark>
+     </sup>
     </a>
    </li>
    <li class="toctree-l2">
@@ -583,6 +588,11 @@ const thebe_selector_output = ".output, .cell_output"
    <li class="toctree-l2">
     <a class="reference internal" href="Week_8_Lecture_3.html">
      Lecture 3: LSTMs and GRUs
+     <sup>
+      <mark style="background-color:gold">
+       Code
+      </mark>
+     </sup>
     </a>
    </li>
    <li class="toctree-l2">
@@ -956,7 +966,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Lecture 1: Recurrent Neural Networks: Introduction</h1>
+                <h1>Lecture 1: Recurrent Neural Networks: Introduction  <sup><mark style="background-color:gold">Code</mark> </sup></h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -969,8 +979,8 @@ title="Print to PDF"
               <div>
                 
   <p><a href="https://colab.research.google.com/github/DL4CV-NPTEL/Deep-Learning-For-Computer-Vision/blob/main/notebooks/Week_8/Week_8_Lecture_1.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a></p>
-<section class="tex2jax_ignore mathjax_ignore" id="lecture-1-recurrent-neural-networks-introduction">
-<h1>Lecture 1: Recurrent Neural Networks: Introduction<a class="headerlink" href="#lecture-1-recurrent-neural-networks-introduction" title="Permalink to this headline">#</a></h1>
+<section class="tex2jax_ignore mathjax_ignore" id="lecture-1-recurrent-neural-networks-introduction-sup-mark-style-background-color-gold-code-mark-sup">
+<h1>Lecture 1: Recurrent Neural Networks: Introduction  <sup><mark style="background-color:gold">Code</mark> </sup><a class="headerlink" href="#lecture-1-recurrent-neural-networks-introduction-sup-mark-style-background-color-gold-code-mark-sup" title="Permalink to this headline">#</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#@title </span>
@@ -987,7 +997,7 @@ title="Print to PDF"
 </div>
 <div class="cell_output docutils container">
 <script type="application/vnd.jupyter.widget-view+json">
-{"version_major": 2, "version_minor": 0, "model_id": "51f0ab16d05e4ea9b77f6ab3760fbedd"}
+{"version_major": 2, "version_minor": 0, "model_id": "efe6597d3c524c1782b8c8b6a36ea10a"}
 </script></div>
 </div>
 <div class="cell docutils container">
@@ -1012,11 +1022,318 @@ title="Print to PDF"
 alt="button link to Airtable" style="width:200px"></a>
   </div></div></div>
 </div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;hey how are you&#39;</span><span class="p">,</span><span class="s1">&#39;good i am fine&#39;</span><span class="p">,</span><span class="s1">&#39;have a nice day&#39;</span><span class="p">]</span>
+
+<span class="c1"># Join all the sentences together and extract the unique characters from the combined sentences</span>
+<span class="n">chars</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
+
+<span class="c1"># Creating a dictionary that maps integers to the characters</span>
+<span class="n">int2char</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">enumerate</span><span class="p">(</span><span class="n">chars</span><span class="p">))</span>
+
+<span class="c1"># Creating another dictionary that maps characters to integers</span>
+<span class="n">char2int</span> <span class="o">=</span> <span class="p">{</span><span class="n">char</span><span class="p">:</span> <span class="n">ind</span> <span class="k">for</span> <span class="n">ind</span><span class="p">,</span> <span class="n">char</span> <span class="ow">in</span> <span class="n">int2char</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">char2int</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;n&#39;: 0, &#39;a&#39;: 1, &#39;h&#39;: 2, &#39;y&#39;: 3, &#39;w&#39;: 4, &#39;o&#39;: 5, &#39;e&#39;: 6, &#39;u&#39;: 7, &#39;f&#39;: 8, &#39;d&#39;: 9, &#39;i&#39;: 10, &#39;v&#39;: 11, &#39;r&#39;: 12, &#39;m&#39;: 13, &#39;g&#39;: 14, &#39; &#39;: 15, &#39;c&#39;: 16}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">maxlen</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="nb">len</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The longest string has </span><span class="si">{}</span><span class="s2"> characters&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">maxlen</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The longest string has 15 characters
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Padding</span>
+
+<span class="c1"># A simple loop that loops through the list of sentences and adds a &#39; &#39; whitespace until the length of the sentence matches</span>
+<span class="c1"># the length of the longest sentence</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)):</span>
+    <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">&lt;</span><span class="n">maxlen</span><span class="p">:</span>
+        <span class="n">text</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="s1">&#39; &#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Creating lists that will hold our input and target sequences</span>
+<span class="n">input_seq</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">target_seq</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)):</span>
+    <span class="c1"># Remove last character for input sequence</span>
+    <span class="n">input_seq</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">i</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    
+    <span class="c1"># Remove firsts character for target sequence</span>
+    <span class="n">target_seq</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">:])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Input Sequence: </span><span class="si">{}</span><span class="se">\n</span><span class="s2">Target Sequence: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">input_seq</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">target_seq</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Input Sequence: hey how are yo
+Target Sequence: ey how are you
+Input Sequence: good i am fine
+Target Sequence: ood i am fine 
+Input Sequence: have a nice da
+Target Sequence: ave a nice day
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)):</span>
+    <span class="n">input_seq</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">char2int</span><span class="p">[</span><span class="n">character</span><span class="p">]</span> <span class="k">for</span> <span class="n">character</span> <span class="ow">in</span> <span class="n">input_seq</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
+    <span class="n">target_seq</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">char2int</span><span class="p">[</span><span class="n">character</span><span class="p">]</span> <span class="k">for</span> <span class="n">character</span> <span class="ow">in</span> <span class="n">target_seq</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dict_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">char2int</span><span class="p">)</span>
+<span class="n">seq_len</span> <span class="o">=</span> <span class="n">maxlen</span> <span class="o">-</span> <span class="mi">1</span>
+<span class="n">batch_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">one_hot_encode</span><span class="p">(</span><span class="n">sequence</span><span class="p">,</span> <span class="n">dict_size</span><span class="p">,</span> <span class="n">seq_len</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">):</span>
+    <span class="c1"># Creating a multi-dimensional array of zeros with the desired output shape</span>
+    <span class="n">features</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">seq_len</span><span class="p">,</span> <span class="n">dict_size</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    
+    <span class="c1"># Replacing the 0 at the relevant character index with a 1 to represent that character</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">batch_size</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">seq_len</span><span class="p">):</span>
+            <span class="n">features</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">sequence</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">u</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">features</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">input_seq</span> <span class="o">=</span> <span class="n">one_hot_encode</span><span class="p">(</span><span class="n">input_seq</span><span class="p">,</span> <span class="n">dict_size</span><span class="p">,</span> <span class="n">seq_len</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Input shape: </span><span class="si">{}</span><span class="s2"> --&gt; (Batch Size, Sequence Length, One-Hot Encoding Size)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">input_seq</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Input shape: (3, 14, 17) --&gt; (Batch Size, Sequence Length, One-Hot Encoding Size)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">input_seq</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">input_seq</span><span class="p">)</span>
+<span class="n">target_seq</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">target_seq</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># torch.cuda.is_available() checks and returns a Boolean True if a GPU is available, else it&#39;ll return False</span>
+<span class="n">is_cuda</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span>
+
+<span class="c1"># If we have a GPU available, we&#39;ll set our device to GPU. We&#39;ll use this device variable later in our code.</span>
+<span class="k">if</span> <span class="n">is_cuda</span><span class="p">:</span>
+    <span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;cuda&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;GPU is available&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;cpu&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;GPU not available, CPU used&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPU is available
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_size</span><span class="p">,</span> <span class="n">output_size</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="p">,</span> <span class="n">n_layers</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Model</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+        <span class="c1"># Defining some parameters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hidden_dim</span> <span class="o">=</span> <span class="n">hidden_dim</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_layers</span> <span class="o">=</span> <span class="n">n_layers</span>
+
+        <span class="c1">#Defining the layers</span>
+        <span class="c1"># RNN Layer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rnn</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">RNN</span><span class="p">(</span><span class="n">input_size</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="p">,</span> <span class="n">n_layers</span><span class="p">,</span> <span class="n">batch_first</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>   
+        <span class="c1"># Fully connected layer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_dim</span><span class="p">,</span> <span class="n">output_size</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        
+        <span class="n">batch_size</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1">#Initializing hidden state for first input using method defined below</span>
+        <span class="n">hidden</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">init_hidden</span><span class="p">(</span><span class="n">batch_size</span><span class="p">)</span>
+
+        <span class="c1"># Passing in the input and hidden state into the model and obtaining outputs</span>
+        <span class="n">out</span><span class="p">,</span> <span class="n">hidden</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rnn</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">hidden</span><span class="p">)</span>
+        
+        <span class="c1"># Reshaping the outputs such that it can be fit into the fully connected layer</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">contiguous</span><span class="p">()</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">hidden_dim</span><span class="p">)</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">out</span><span class="p">,</span> <span class="n">hidden</span>
+    
+    <span class="k">def</span> <span class="nf">init_hidden</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">):</span>
+        <span class="c1"># This method generates the first hidden state of zeros which we&#39;ll use in the forward pass</span>
+        <span class="n">hidden</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_layers</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">hidden_dim</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+         <span class="c1"># We&#39;ll send the tensor holding the hidden state to the device we specified earlier as well</span>
+        <span class="k">return</span> <span class="n">hidden</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Instantiate the model with hyperparameters</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">input_size</span><span class="o">=</span><span class="n">dict_size</span><span class="p">,</span> <span class="n">output_size</span><span class="o">=</span><span class="n">dict_size</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">n_layers</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1"># We&#39;ll also set the model to the device that we defined earlier (default is CPU)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+<span class="c1"># Define hyperparameters</span>
+<span class="n">n_epochs</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span>
+
+<span class="c1"># Define Loss, Optimizer</span>
+<span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="n">lr</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Training Run</span>
+<span class="n">input_seq</span> <span class="o">=</span> <span class="n">input_seq</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_epochs</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span> <span class="c1"># Clears existing gradients from previous epoch</span>
+    <span class="c1">#input_seq = input_seq.to(device)</span>
+    <span class="n">output</span><span class="p">,</span> <span class="n">hidden</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">input_seq</span><span class="p">)</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+    <span class="n">target_seq</span> <span class="o">=</span> <span class="n">target_seq</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">target_seq</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">long</span><span class="p">())</span>
+    <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span> <span class="c1"># Does backpropagation and calculates gradients</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span> <span class="c1"># Updates the weights accordingly</span>
+    
+    <span class="k">if</span> <span class="n">epoch</span><span class="o">%</span><span class="k">10</span> == 0:
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Epoch: </span><span class="si">{}</span><span class="s1">/</span><span class="si">{}</span><span class="s1">.............&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">epoch</span><span class="p">,</span> <span class="n">n_epochs</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Loss: </span><span class="si">{:.4f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch: 10/100............. Loss: 2.4491
+Epoch: 20/100............. Loss: 2.1556
+Epoch: 30/100............. Loss: 1.7550
+Epoch: 40/100............. Loss: 1.3519
+Epoch: 50/100............. Loss: 0.9831
+Epoch: 60/100............. Loss: 0.6925
+Epoch: 70/100............. Loss: 0.4877
+Epoch: 80/100............. Loss: 0.3425
+Epoch: 90/100............. Loss: 0.2471
+Epoch: 100/100............. Loss: 0.1869
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">character</span><span class="p">):</span>
+    <span class="c1"># One-hot encoding our input to fit into the model</span>
+    <span class="n">character</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">char2int</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">character</span><span class="p">]])</span>
+    <span class="n">character</span> <span class="o">=</span> <span class="n">one_hot_encode</span><span class="p">(</span><span class="n">character</span><span class="p">,</span> <span class="n">dict_size</span><span class="p">,</span> <span class="n">character</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">character</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">character</span><span class="p">)</span>
+    <span class="n">character</span> <span class="o">=</span> <span class="n">character</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+    
+    <span class="n">out</span><span class="p">,</span> <span class="n">hidden</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">character</span><span class="p">)</span>
+
+    <span class="n">prob</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">functional</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">data</span>
+    <span class="c1"># Taking the class with the highest probability score from the output</span>
+    <span class="n">char_ind</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">prob</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">int2char</span><span class="p">[</span><span class="n">char_ind</span><span class="p">],</span> <span class="n">hidden</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">out_len</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="s1">&#39;hey&#39;</span><span class="p">):</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span> <span class="c1"># eval mode</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">start</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="c1"># First off, run through the starting characters</span>
+    <span class="n">chars</span> <span class="o">=</span> <span class="p">[</span><span class="n">ch</span> <span class="k">for</span> <span class="n">ch</span> <span class="ow">in</span> <span class="n">start</span><span class="p">]</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="n">out_len</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">chars</span><span class="p">)</span>
+    <span class="c1"># Now pass in the previous characters and get a new one</span>
+    <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+        <span class="n">char</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">predict</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">chars</span><span class="p">)</span>
+        <span class="n">chars</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">char</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">chars</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sample</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="s1">&#39;good&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;good i am fine &#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Acknowledgements</strong></p>
+<p><a class="reference external" href="https://blog.floydhub.com/a-beginners-guide-on-recurrent-neural-networks-with-pytorch/">https://blog.floydhub.com/a-beginners-guide-on-recurrent-neural-networks-with-pytorch/</a></p>
 </section>
 
 
 <script type="application/vnd.jupyter.widget-state+json">
-{"state": {"145a25dfe19e45d5a59e5d8ada58bf8e": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "51f0ab16d05e4ea9b77f6ab3760fbedd": {"model_name": "OutputModel", "model_module": "@jupyter-widgets/output", "model_module_version": "1.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/output", "_model_module_version": "1.0.0", "_model_name": "OutputModel", "_view_count": null, "_view_module": "@jupyter-widgets/output", "_view_module_version": "1.0.0", "_view_name": "OutputView", "layout": "IPY_MODEL_145a25dfe19e45d5a59e5d8ada58bf8e", "msg_id": "", "outputs": [{"output_type": "stream", "name": "stdout", "text": "Video available at https://youtube.com/watch?v=c-k79rJagjQ\n"}, {"output_type": "display_data", "metadata": {}, "data": {"text/plain": "<IPython.lib.display.YouTubeVideo at 0x7f7290eed750>", "text/html": "\n        <iframe\n            width=\"854\"\n            height=\"480\"\n            src=\"https://www.youtube.com/embed/c-k79rJagjQ?fs=1&rel=0\"\n            frameborder=\"0\"\n            allowfullscreen\n        ></iframe>\n        ", "image/jpeg": "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D7tTvgeoA8v8o+N6rD7tTvjyj43qsPu1O+B6gDy/yj43qsPu1O+PKPjeqw+7U74HqAPL/KPjeqw+7U748o+N6rD7tTvgeoA8v8o+N6rD7tTvjyj43qsPu1O+B6gDy/yj43qsPu1O+PKPjeqw+7U74HqAPL/KPjeqw+7U748o+N6rD7tTvgeoA8v8o+N6rD7tTvjyj43qsPu1O+B6gDy/yj43qsPu1O+PKPjeqw+7U74HqAPL/KPjeqw+7U748o+N6rD7tTvgeoA8v8o+N6rD7tTvjyj43qsPu1O+B6gDy/yj43qsPu1O+PKPjeqw+7U74HqAPL/KPjeqw+7U748o+N6rD7tTvgeoA8v8o+N6rD7tTvjyj43qsPu1O+B6gDy/yj43qsPu1O+PKPjeqw+7U74HqAPL/KPjeqw+7U748o+N6rD7tTvgceAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD//2Q==\n"}}]}}}, "version_major": 2, "version_minor": 0}
+{"state": {"32b8af663e7b4acc815d43a0fb9c15d5": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "efe6597d3c524c1782b8c8b6a36ea10a": {"model_name": "OutputModel", "model_module": "@jupyter-widgets/output", "model_module_version": "1.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/output", "_model_module_version": "1.0.0", "_model_name": "OutputModel", "_view_count": null, "_view_module": "@jupyter-widgets/output", "_view_module_version": "1.0.0", "_view_name": "OutputView", "layout": "IPY_MODEL_32b8af663e7b4acc815d43a0fb9c15d5", "msg_id": "", "outputs": [{"output_type": "stream", "name": "stdout", "text": "Video available at https://youtube.com/watch?v=c-k79rJagjQ\n"}, {"output_type": "display_data", "metadata": {}, "data": {"text/plain": "<IPython.lib.display.YouTubeVideo at 0x7f9b4f17ea10>", "text/html": "\n        <iframe\n            width=\"854\"\n            height=\"480\"\n            src=\"https://www.youtube.com/embed/c-k79rJagjQ?fs=1&rel=0\"\n            frameborder=\"0\"\n            allowfullscreen\n        ></iframe>\n        ", "image/jpeg": "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D7tTvgeoA8v8o+N6rD7tTvjyj43qsPu1O+B6gDy/yj43qsPu1O+PKPjeqw+7U74HqAPL/KPjeqw+7U748o+N6rD7tTvgeoA8v8o+N6rD7tTvjyj43qsPu1O+B6gDy/yj43qsPu1O+PKPjeqw+7U74HqAPL/KPjeqw+7U748o+N6rD7tTvgeoA8v8o+N6rD7tTvjyj43qsPu1O+B6gDy/yj43qsPu1O+PKPjeqw+7U74HqAPL/KPjeqw+7U748o+N6rD7tTvgeoA8v8o+N6rD7tTvjyj43qsPu1O+B6gDy/yj43qsPu1O+PKPjeqw+7U74HqAPL/KPjeqw+7U748o+N6rD7tTvgeoA8v8o+N6rD7tTvjyj43qsPu1O+B6gDy/yj43qsPu1O+PKPjeqw+7U74HqAPL/KPjeqw+7U748o+N6rD7tTvgceAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD//2Q==\n"}}]}}}, "version_major": 2, "version_minor": 0}
 </script>
 
 
